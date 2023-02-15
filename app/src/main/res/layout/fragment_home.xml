@@ -27,6 +27,7 @@
             android:layout_height="92dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="23dp"
+            android:scaleType="fitXY"
             android:src="@drawable/logo_small" />
         <ImageView
             android:layout_width="32dp"
@@ -37,5 +38,17 @@
             android:src="@drawable/ic_setting" />
 
     </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="155dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="Trending movies"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
