@@ -1,4 +1,4 @@
-package com.ri.movieto.ui.notifications
+package com.ri.movieto.ui.favorites
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.ri.movieto.databinding.FragmentNotificationsBinding
+import com.ri.movieto.databinding.FragmentFavoritesBinding
 
-class NotificationsFragment : Fragment() {
+class FavoritesFragment : Fragment() {
 
-    private var _binding: FragmentNotificationsBinding? = null
+    private var _binding: FragmentFavoritesBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,14 +22,14 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
+        val favoritesViewModel =
+            ViewModelProvider(this).get(FavoritesViewModel::class.java)
 
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+        _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
+        favoritesViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
         return root
