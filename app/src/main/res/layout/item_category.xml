@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <data>
+        <variable
+            name="category"
+            type="com.ri.movieto.data.model.GenreResponse.Genre" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        app:cardCornerRadius="25dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:paddingHorizontal="29dp"
+            android:minWidth="120dp"
+            android:text="@{category.name}"
+            android:categoryId="@{category.id}"
+            android:background="@color/midnight"
+            android:textColor="@color/white"
+            android:gravity="center|center_vertical"
+            android:fontFamily="@font/montserrat_bold"
+            android:textSize="17sp"
+            />
+
+    </androidx.cardview.widget.CardView>
+</layout>
