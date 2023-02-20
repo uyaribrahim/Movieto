@@ -27,8 +27,7 @@ fun downloadBackdropImage(view: ImageView, url: String?) {
 
 @BindingAdapter("android:posterPath")
 fun downloadPosterImage(view: ImageView, url: String?) {
-    val posterPath = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2$url"
-    view.downloadFromUrl(posterPath)
+    view.downloadFromUrl(url)
 }
 
 fun TextView.changeBgBySelectedCategory(id: Int) {
@@ -42,14 +41,4 @@ fun TextView.changeBgBySelectedCategory(id: Int) {
 @BindingAdapter("android:categoryId")
 fun getCategoryId(view: TextView, id: Int) {
     view.changeBgBySelectedCategory(id)
-}
-
-fun TextView.roundVoteAverage(vote_average: Float) {
-    val roundOff = (vote_average * 10.0).roundToInt() / 10.0
-    this.text = roundOff.toString()
-}
-
-@BindingAdapter("android:voteAverage")
-fun getVoteAverage(view: TextView, vote_average: Float) {
-    view.roundVoteAverage(vote_average)
 }

@@ -40,17 +40,6 @@
 
     </FrameLayout>
 
-    <ProgressBar
-        android:id="@+id/dataLoading"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_gravity="center"
-        android:indeterminateTint="@color/pink_panther"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/content_layout"
         android:layout_width="match_parent"
@@ -75,16 +64,29 @@
                 android:textColor="@color/white"
                 android:textSize="24sp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_trending_movies"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
-                android:layout_marginTop="20dp"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                android:layout_marginTop="20dp">
+
+                <ProgressBar
+                    android:id="@+id/trendingMoviesLoading"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/pink_panther" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_trending_movies"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="30dp"
+                    android:paddingEnd="30dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/category_title"
@@ -122,17 +124,29 @@
                 android:textSize="24sp"
                 app:drawableEndCompat="@drawable/star" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_top_rated_movies"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="218dp"
-                android:layout_marginTop="20dp"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                android:layout_height="220dp"
+                android:layout_marginTop="20dp">
 
+                <ProgressBar
+                    android:id="@+id/topRatedMoviesLoading"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:indeterminateTint="@color/pink_panther" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_top_rated_movies"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="30dp"
+                    android:paddingEnd="30dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            </FrameLayout>
 
         </LinearLayout>
 

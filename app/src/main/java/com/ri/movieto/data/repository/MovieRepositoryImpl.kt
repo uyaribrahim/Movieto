@@ -9,9 +9,7 @@ class MovieRepositoryImpl @Inject constructor(
     private val api: MovieAPI
 ) : MovieRepository {
 
-    override suspend fun getTrendingMovies(): MovieResponseDto {
-        return api.getTrendingMovies()
-    }
-
+    override suspend fun getTrendingMovies(): MovieResponseDto = api.getTrendingMovies()
+    override suspend fun getTopRatedMovies(): MovieResponseDto = api.getTopRatedMovies()
 
 }

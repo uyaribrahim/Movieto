@@ -34,7 +34,8 @@ class HomeFragment : Fragment() {
     private lateinit var rvTopRatedMovies: RecyclerView
     private lateinit var rvCategory: RecyclerView
     private lateinit var contentLayout: NestedScrollView
-    private lateinit var dataLoading: ProgressBar
+    private lateinit var trendingMoviesLoading: ProgressBar
+    private lateinit var topRatedMoviesLoading: ProgressBar
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -46,9 +47,7 @@ class HomeFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -60,34 +59,63 @@ class HomeFragment : Fragment() {
         rvCategory.adapter = categoryAdapter
 
         contentLayout = binding.contentLayout
-        dataLoading = binding.dataLoading
+        trendingMoviesLoading = binding.trendingMoviesLoading
+        topRatedMoviesLoading = binding.topRatedMoviesLoading
 
-        observeHomeViewModelState()
+        observeHomeViewModelState(
+            trendingMoviesAdapter,
+            topRatedAdapter,
+            trendingMoviesLoading,
+            topRatedMoviesLoading
+        )
 
         return binding.root
     }
 
-    private fun observeHomeViewModelState() {
+    private fun observeHomeViewModelState(
+        trendingMoviesAdapter: TrendingMoviesAdapter,
+        topRatedAdapter: TopRatedAdapter,
+        trendingMoviesLoading: ProgressBar,
+        topRatedMoviesLoading: ProgressBar
+    ) {
         lifecycleScope.launchWhenStarted {
-            homeViewModel.state.collectLatest { state ->
-
-                when (val movies = state.response?.movies) {
-                    null -> {}
-                    else -> {
-                        contentLayout.visibility = View.VISIBLE
-                        trendingMoviesAdapter.updateMovieList(movies)
-                    }
-                }
-
-                when (state.isLoading) {
-                    true -> {
-                        contentLayout.visibility = View.GONE
-                        dataLoading.visibility = View.VISIBLE
-                    }
-                    false -> dataLoading.visibility = View.GONE
-                }
+            homeViewModel.trendingMoviesState.collectLatest { state ->
+                updateTrendingMovies(state, trendingMoviesAdapter)
+                updateTrendingMoviesLoading(state.isLoading, trendingMoviesLoading)
             }
         }
+
+        lifecycleScope.launchWhenStarted {
+            homeViewModel.topRatedMoviesState.collectLatest { state ->
+                updateTopRatedMovies(state, topRatedAdapter)
+                updateTopRatedMoviesLoading(state.isLoading, topRatedMoviesLoading)
+            }
+        }
+    }
+
+    private fun updateTrendingMovies(
+        state: TrendingMoviesState,
+        trendingMoviesAdapter: TrendingMoviesAdapter
+    ) {
+        state.response?.movies?.let { trendingMoviesAdapter.updateMovieList(it) }
+    }
+
+    private fun updateTopRatedMovies(state: TopRatedMoviesState, topRatedAdapter: TopRatedAdapter) {
+        state.response?.movies?.let { topRatedAdapter.updateMovieList(it) }
+    }
+
+    private fun updateTrendingMoviesLoading(
+        isLoading: Boolean,
+        trendingMoviesLoading: ProgressBar
+    ) {
+        trendingMoviesLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun updateTopRatedMoviesLoading(
+        isLoading: Boolean,
+        topRatedMoviesLoading: ProgressBar
+    ) {
+        topRatedMoviesLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     override fun onDestroyView() {

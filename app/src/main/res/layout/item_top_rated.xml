@@ -5,7 +5,7 @@
     <data>
         <variable
             name="movie"
-            type="com.ri.movieto.data.model.MovieResponse.Movie" />
+            type="com.ri.movieto.domain.model.MovieResponse.Movie" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -47,12 +47,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="9.1"
+                    android:text="@{movie.vote_average}"
                     android:fontFamily="@font/montserrat_regular"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:gravity="center_vertical"
-                    android:voteAverage="@{movie.vote_average}"/>
+                    android:gravity="center_vertical"/>
 
             </LinearLayout>
 

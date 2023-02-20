@@ -6,6 +6,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.ri.movieto.common.Resource
 import com.ri.movieto.domain.model.MovieResponse
+import com.ri.movieto.domain.use_case.get_top_rated_movies.GetTopRatedMoviesUseCase
 import com.ri.movieto.domain.use_case.get_trending_movies.GetTrendingMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,33 +17,64 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getTrendingMoviesUseCase: GetTrendingMoviesUseCase
+    private val getTrendingMoviesUseCase: GetTrendingMoviesUseCase,
+    private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(TrendingMoviesState())
-    val state = _state.asStateFlow()
+    private val _trendingMoviesState = MutableStateFlow(TrendingMoviesState())
+    val trendingMoviesState = _trendingMoviesState.asStateFlow()
+    private val _topRatedMoviesState = MutableStateFlow(TopRatedMoviesState())
+    val topRatedMoviesState = _topRatedMoviesState.asStateFlow()
 
     init {
+        getMovies()
+    }
+
+    private fun getMovies() {
         viewModelScope.launch {
-            getTrendingMovies()
+
+            getTrendingMoviesUseCase().collect { trendingResult ->
+                handleTrendingMoviesResult(trendingResult)
+            }
+            getTopRatedMoviesUseCase().collect { topRatedResult ->
+                handleTopRatedMoviesResult(topRatedResult)
+            }
         }
     }
 
-    private suspend fun getTrendingMovies() {
-        getTrendingMoviesUseCase().onEach { result ->
-
-            when (result) {
-                is Resource.Success -> {
-                    _state.value = TrendingMoviesState(response = result.data)
-                }
-                is Resource.Error -> {
-                    _state.value =
-                        TrendingMoviesState(error = result.message ?: "Beklenmeyen bir hata oluştu")
-                }
-                is Resource.Loading -> {
-                    _state.value = TrendingMoviesState(isLoading = true)
-                }
+    private fun handleTrendingMoviesResult(result: Resource<MovieResponse>) {
+        Log.e("!!!", "handle trendişng")
+        when (result) {
+            is Resource.Success -> {
+                _trendingMoviesState.value = TrendingMoviesState(response = result.data)
             }
-        }.collect()
+            is Resource.Error -> {
+                _trendingMoviesState.value = TrendingMoviesState(
+                    error = result.message ?: "Beklenmeyen bir hata oluştu"
+                )
+            }
+            is Resource.Loading -> {
+                _trendingMoviesState.value = TrendingMoviesState(isLoading = true)
+            }
+        }
     }
+
+    private fun handleTopRatedMoviesResult(result: Resource<MovieResponse>) {
+        Log.e("!!!", "handle topRated")
+
+        when (result) {
+            is Resource.Success -> {
+                _topRatedMoviesState.value = TopRatedMoviesState(response = result.data)
+            }
+            is Resource.Error -> {
+                _topRatedMoviesState.value = TopRatedMoviesState(
+                    error = result.message ?: "Beklenmeyen bir hata oluştu"
+                )
+            }
+            is Resource.Loading -> {
+                _topRatedMoviesState.value = TopRatedMoviesState(isLoading = true)
+            }
+        }
+    }
+
 }

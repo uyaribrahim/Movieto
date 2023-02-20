@@ -5,4 +5,6 @@ import com.ri.movieto.data.remote.dto.MovieResponseDto
 interface MovieRepository {
 
     suspend fun getTrendingMovies(): MovieResponseDto
+
+    suspend fun getTopRatedMovies(): MovieResponseDto
 }
