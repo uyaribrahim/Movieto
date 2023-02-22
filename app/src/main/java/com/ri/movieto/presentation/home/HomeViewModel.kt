@@ -41,38 +41,27 @@ class HomeViewModel @Inject constructor(
         getData()
     }
 
-    private fun getData() = runBlocking {
+    private fun getData() = viewModelScope.launch {
         _dataLoading.value = true
-        viewModelScope.launch {
-            launch {
-                getTrendingMovies()
-            }
-            launch {
-                getTopRatedMovies()
-            }
-            launch {
-                getMovieGenres()
-            }
-        }.invokeOnCompletion {
+
+        val trendingMoviesFlow = getTrendingMoviesUseCase()
+        val topRatedMoviesFlow = getTopRatedMoviesUseCase()
+        val movieGenresFlow = getMovieGenresUseCase()
+
+        combine(
+            trendingMoviesFlow,
+            topRatedMoviesFlow,
+            movieGenresFlow
+        ) { trendingMoviesResult, topRatedMoviesResult, genresResult ->
+            // combine the three results into a single object
+            Triple(trendingMoviesResult, topRatedMoviesResult, genresResult)
+        }.onCompletion {
             _dataLoading.value = false
-            Log.e("##", "complete")
-        }
-
-    }
-
-    private suspend fun getTrendingMovies() {
-            getTrendingMoviesUseCase().collect { trendingResult ->
-                handleTrendingMoviesResult(trendingResult)
-        }
-    }
-    private suspend fun getTopRatedMovies() {
-            getTopRatedMoviesUseCase().collect { topRatedResult ->
-                handleTopRatedMoviesResult(topRatedResult)
-        }
-    }
-    private suspend fun getMovieGenres() {
-            getMovieGenresUseCase().collect { genresResult ->
-                handleGenresResult(genresResult)
+        }.collect { (trendingMoviesResult, topRatedMoviesResult, genresResult) ->
+            // handle the combined result
+            handleTrendingMoviesResult(trendingMoviesResult)
+            handleTopRatedMoviesResult(topRatedMoviesResult)
+            handleGenresResult(genresResult)
         }
     }
 
