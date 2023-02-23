@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    
+    <data>
+        <variable
+            name="movie"
+            type="com.ri.movieto.domain.model.MovieDetail" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/indigo"
+        tools:context=".presentation.detail.DetailFragment">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@drawable/gradient_poster_from_top"
+            android:elevation="1dp"
+            android:paddingHorizontal="25dp"
+            android:paddingTop="26dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/back_button"
+                android:layout_width="29dp"
+                android:layout_height="26dp"
+                android:src="@drawable/left_arrow" />
+
+            <ImageView
+                android:layout_width="29dp"
+                android:layout_height="26dp"
+                android:layout_gravity="end"
+                android:src="@drawable/ic_heart" />
+
+        </FrameLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="560dp"
+                    android:scaleType="fitXY"
+                    android:posterPath="@{movie.poster_path}" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/gradient_poster_from_bottom"
+                    android:elevation="1dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:elevation="2dp"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="30dp">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="@{movie.title}"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textColor="@color/white"
+                        android:textSize="26sp" />
+
+                    <TextView
+                        android:id="@+id/genres"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:gravity="start"
+                        android:text="@{movie.movie_label}"
+                        android:textColor="#9DA4CD"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/overview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:gravity="start"
+                        android:text="@{movie.overview}"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="27dp"
+                        android:paddingEnd="42dp">
+
+                        <Button
+                            android:layout_width="185dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/rounded_ripple"
+                            android:backgroundTint="@color/pink_panther"
+                            android:drawableStart="@drawable/ic_play_button"
+                            android:drawablePadding="14dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:gravity="start|center"
+                            android:paddingStart="28dp"
+                            android:singleLine="true"
+                            android:text="Play now"
+                            android:textAllCaps="false"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/vote_average"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end|center"
+                            android:drawablePadding="5dp"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:gravity="center"
+                            android:text="@{movie.vote_average}"
+                            android:textColor="@color/white"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            app:drawableStartCompat="@drawable/star" />
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+

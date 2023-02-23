@@ -1,33 +1,29 @@
 package com.ri.movieto.presentation.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.ri.movieto.adapters.CategoryAdapter
-import com.ri.movieto.adapters.TopRatedAdapter
-import com.ri.movieto.adapters.TrendingMoviesAdapter
+import com.ri.movieto.adapter.CategoryAdapter
+import com.ri.movieto.adapter.TopRatedAdapter
+import com.ri.movieto.adapter.TrendingMoviesAdapter
 import com.ri.movieto.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.observeOn
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private lateinit var homeViewModel: HomeViewModel
-    private val trendingMoviesAdapter = TrendingMoviesAdapter(arrayListOf())
+    private lateinit var trendingMoviesAdapter: TrendingMoviesAdapter
     private val categoryAdapter = CategoryAdapter(arrayListOf())
     private val topRatedAdapter = TopRatedAdapter(arrayListOf())
     private lateinit var rvTrendingMovies: RecyclerView
@@ -48,13 +44,18 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        trendingMoviesAdapter = TrendingMoviesAdapter(arrayListOf()) { id ->
+            val action = HomeFragmentDirections.actionNavigationHomeToNavigationDetail(id)
+            view?.findNavController()?.navigate(action)
+        }
+
         rvTrendingMovies = binding.rvTrendingMovies
         rvTopRatedMovies = binding.rvTopRatedMovies
+        rvCategory = binding.rvCategory
         rvTrendingMovies.adapter = trendingMoviesAdapter
         rvTopRatedMovies.adapter = topRatedAdapter
-        rvCategory = binding.rvCategory
         rvCategory.adapter = categoryAdapter
 
         contentLayout = binding.contentLayout

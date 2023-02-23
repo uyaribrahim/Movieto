@@ -9,7 +9,12 @@
         android:id="@+id/navigation_home"
         android:name="com.ri.movieto.presentation.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_detail"
+            app:destination="@id/navigation_detail" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_search"
@@ -28,4 +33,14 @@
         android:name="com.ri.movieto.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/navigation_detail"
+        android:name="com.ri.movieto.presentation.detail.DetailFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_detail">
+        <argument
+            android:name="movie_id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

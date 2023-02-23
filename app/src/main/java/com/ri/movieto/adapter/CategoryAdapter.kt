@@ -1,4 +1,4 @@
-package com.ri.movieto.adapters
+package com.ri.movieto.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

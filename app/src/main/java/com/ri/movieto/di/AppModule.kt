@@ -5,12 +5,15 @@ import com.ri.movieto.data.decider.MovieItemDeciderImpl
 import com.ri.movieto.data.remote.MovieAPI
 import com.ri.movieto.data.remote.dto.GenreResponseDto
 import com.ri.movieto.data.remote.dto.MovieResponseDto
+import com.ri.movieto.data.remote.dto.movie_detail.MovieDetailDto
 import com.ri.movieto.data.repository.MovieRepositoryImpl
 import com.ri.movieto.domain.decider.MovieItemDecider
 import com.ri.movieto.domain.mapper.GenreResponseDtoToDomain
 import com.ri.movieto.domain.mapper.Mapper
+import com.ri.movieto.domain.mapper.MovieDetailDtoToDomain
 import com.ri.movieto.domain.mapper.MovieResponseDtoToDomain
 import com.ri.movieto.domain.model.GenreResponse
+import com.ri.movieto.domain.model.MovieDetail
 import com.ri.movieto.domain.model.MovieResponse
 import com.ri.movieto.domain.repository.MovieRepository
 import dagger.Module
@@ -62,6 +65,12 @@ object AppModule {
     @Singleton
     fun provideGenreResponseDtoToDomain(): Mapper<GenreResponseDto, GenreResponse> {
         return GenreResponseDtoToDomain()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMovieDetailDtoToDomain(decider: MovieItemDecider): Mapper<MovieDetailDto, MovieDetail> {
+        return MovieDetailDtoToDomain(decider)
     }
 
 }
