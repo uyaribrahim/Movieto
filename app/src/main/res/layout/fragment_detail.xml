@@ -2,11 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    
+
     <data>
+
         <variable
             name="movie"
             type="com.ri.movieto.domain.model.MovieDetail" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,7 +44,20 @@
 
         </FrameLayout>
 
+        <ProgressBar
+            android:id="@+id/detail_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/pink_panther"
+            android:visibility="@{movie == null ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/content_layout"
+            android:visibility="@{movie == null ? View.GONE : View.VISIBLE}"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -52,8 +68,8 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="560dp"
-                    android:scaleType="fitXY"
-                    android:posterPath="@{movie.poster_path}" />
+                    android:posterPath="@{movie.poster_path}"
+                    android:scaleType="fitXY" />
 
                 <View
                     android:layout_width="match_parent"
@@ -74,10 +90,10 @@
                         android:id="@+id/title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_bold"
-                        android:text="@{movie.title}"
-                        android:maxLines="1"
                         android:ellipsize="end"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:maxLines="1"
+                        android:text="@{movie.title}"
                         android:textColor="@color/white"
                         android:textSize="26sp" />
 
