@@ -7,14 +7,16 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.*
-import androidx.navigation.Navigation
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.ri.movieto.adapter.CategoryAdapter
 import com.ri.movieto.adapter.TopRatedAdapter
 import com.ri.movieto.adapter.TrendingMoviesAdapter
 import com.ri.movieto.databinding.FragmentHomeBinding
+import com.ri.movieto.domain.model.GenreResponse
+import com.ri.movieto.domain.model.MovieResponse
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -61,12 +63,12 @@ class HomeFragment : Fragment() {
         contentLayout = binding.contentLayout
         dataLoading = binding.dataLoading
 
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = homeViewModel
+
         observeHomeViewModelState(
-            trendingMoviesAdapter,
-            topRatedAdapter,
+            trendingMoviesAdapter, topRatedAdapter, categoryAdapter
         )
-        observeGenres()
-        observeDataLoading()
 
         return binding.root
     }
@@ -74,49 +76,41 @@ class HomeFragment : Fragment() {
     private fun observeHomeViewModelState(
         trendingMoviesAdapter: TrendingMoviesAdapter,
         topRatedAdapter: TopRatedAdapter,
+        categoryAdapter: CategoryAdapter
     ) {
         lifecycleScope.launchWhenStarted {
-            homeViewModel.trendingMoviesState.collectLatest { state ->
-                updateTrendingMovies(state, trendingMoviesAdapter)
+            homeViewModel.state.collectLatest { state ->
+                state.data?.getTrendingMovies().let {
+                    updateTrendingMovies(it, trendingMoviesAdapter)
+                }
+                state.data?.getTopRatedMovies().let {
+                    updateTopRatedMovies(it, topRatedAdapter)
+                }
+                state.data?.getGenres().let {
+                    updateCategories(it, categoryAdapter)
+                }
             }
         }
-
-        lifecycleScope.launchWhenStarted {
-            homeViewModel.topRatedMoviesState.collectLatest { state ->
-                updateTopRatedMovies(state, topRatedAdapter)
-            }
-        }
-    }
-
-    private fun observeGenres() {
-        homeViewModel.genres.observe(viewLifecycleOwner, Observer { genres ->
-            genres.let {
-                categoryAdapter.updateCategoryList(it)
-            }
-        })
-    }
-
-    private fun observeDataLoading() {
-        homeViewModel.dataLoading.observe(viewLifecycleOwner, Observer { isLoading ->
-            if (isLoading) {
-                contentLayout.visibility = View.GONE
-                dataLoading.visibility = View.VISIBLE
-            } else {
-                dataLoading.visibility = View.GONE
-                contentLayout.visibility = View.VISIBLE
-            }
-        })
     }
 
     private fun updateTrendingMovies(
-        state: TrendingMoviesState,
-        trendingMoviesAdapter: TrendingMoviesAdapter
+        state: MovieResponse?, trendingMoviesAdapter: TrendingMoviesAdapter
     ) {
-        state.response?.movies?.let { trendingMoviesAdapter.updateMovieList(it) }
+        if (state != null) {
+            trendingMoviesAdapter.updateMovieList(state.movies)
+        }
     }
 
-    private fun updateTopRatedMovies(state: TopRatedMoviesState, topRatedAdapter: TopRatedAdapter) {
-        state.response?.movies?.let { topRatedAdapter.updateMovieList(it) }
+    private fun updateTopRatedMovies(state: MovieResponse?, topRatedAdapter: TopRatedAdapter) {
+        if (state != null) {
+            topRatedAdapter.updateMovieList(state.movies)
+        }
+    }
+
+    private fun updateCategories(state: GenreResponse?, categoryAdapter: CategoryAdapter) {
+        if (state != null) {
+            categoryAdapter.updateCategoryList(state.genres)
+        }
     }
 
 

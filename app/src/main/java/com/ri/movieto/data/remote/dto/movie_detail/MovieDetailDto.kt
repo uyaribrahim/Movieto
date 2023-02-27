@@ -1,5 +1,8 @@
 package com.ri.movieto.data.remote.dto.movie_detail
 
+import com.ri.movieto.domain.decider.MovieDecider
+import com.ri.movieto.domain.model.MovieDetail
+
 data class MovieDetailDto(
     val adult: Boolean,
     val backdrop_path: String?,
@@ -27,3 +30,14 @@ data class MovieDetailDto(
     val vote_average: Double,
     val vote_count: Int
 )
+
+fun MovieDetailDto.toDomain(decider: MovieDecider): MovieDetail {
+    return MovieDetail(
+        id = id,
+        overview = overview,
+        title = title,
+        poster_path = decider.providePosterPath(poster_path),
+        vote_average = decider.provideRoundedAverage(vote_average),
+        movie_label = decider.provideMovieLabel(release_date, genres),
+    )
+}

@@ -1,8 +1,8 @@
-package com.ri.movieto.presentation.home
+package com.ri.movieto.presentation.detail
 
 import com.ri.movieto.domain.model.MovieResponse
 
-data class TrendingMoviesState(
+data class MovieDetailState (
     val isLoading: Boolean = false,
     val response: MovieResponse? = null,
     val error: String = ""

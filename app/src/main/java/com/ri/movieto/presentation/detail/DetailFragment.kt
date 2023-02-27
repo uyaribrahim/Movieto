@@ -6,13 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.ri.movieto.R
 import com.ri.movieto.databinding.FragmentDetailBinding
-import com.ri.movieto.presentation.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,22 +32,14 @@ class DetailFragment : Fragment() {
         val backButton = binding.backButton
         val movieId = args.movieId
         detailViewModel.getMovieDetail(movieId)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = detailViewModel
 
         backButton.setOnClickListener {
             findNavController().navigateUp()
         }
 
-        observeLiveData()
-
         return binding.root
-    }
-
-    private fun observeLiveData(){
-        detailViewModel.detail.observe(viewLifecycleOwner, Observer {movie ->
-            movie.let {
-                binding.movie = it
-            }
-        })
     }
 
     override fun onDestroy() {

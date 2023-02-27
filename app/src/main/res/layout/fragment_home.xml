@@ -1,85 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.home.HomeFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
-        android:id="@+id/header"
+    <data>
+        <variable
+            name="viewModel"
+            type="com.ri.movieto.presentation.home.HomeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        tools:context=".presentation.home.HomeFragment">
 
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="26dp"
-            android:layout_gravity="start"
-            android:layout_marginStart="39dp"
-            android:layout_marginTop="45dp"
-            android:src="@drawable/ic_menu" />
-
-        <ImageView
-            android:layout_width="108dp"
-            android:layout_height="88dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/logo_small" />
-
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="end"
-            android:layout_marginTop="42dp"
-            android:layout_marginEnd="39dp"
-            android:src="@drawable/ic_setting" />
-
-    </FrameLayout>
-
-    <ProgressBar
-        android:id="@+id/data_loading"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_gravity="center"
-        android:indeterminateTint="@color/pink_panther"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/content_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:paddingTop="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header">
-
-        <LinearLayout
+        <FrameLayout
+            android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/trending_movies_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Trending movies"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="26dp"
+                android:layout_gravity="start"
+                android:layout_marginStart="39dp"
+                android:layout_marginTop="45dp"
+                android:src="@drawable/ic_menu" />
+
+            <ImageView
+                android:layout_width="108dp"
+                android:layout_height="88dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/logo_small" />
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="42dp"
+                android:layout_marginEnd="39dp"
+                android:src="@drawable/ic_setting" />
+
+        </FrameLayout>
+
+        <ProgressBar
+            android:id="@+id/data_loading"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:showOnLoading="@{viewModel.state}"
+            android:indeterminateTint="@color/pink_panther"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="20dp"
+            android:hideOnLoading="@{viewModel.state}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/trending_movies_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:hideOnError="@{viewModel.trendingMoviesState}"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="@{viewModel.state.data.trendingMoviesTitle}"
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_trending_movies"
                     android:layout_width="match_parent"
                     android:layout_height="220dp"
                     android:layout_marginTop="20dp"
+                    android:hideOnError="@{viewModel.trendingMoviesState}"
                     android:clipToPadding="false"
                     android:orientation="horizontal"
                     android:paddingStart="30dp"
@@ -87,47 +99,49 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 
-            <TextView
-                android:id="@+id/category_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="27dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Category"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
+                <TextView
+                    android:id="@+id/category_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="27dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="Category"
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_category"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:layout_editor_absoluteX="0dp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20dp"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="30dp"
+                    android:paddingEnd="30dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:layout_editor_absoluteX="0dp" />
 
-            <TextView
-                android:id="@+id/top_rated_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="27dp"
-                android:drawablePadding="10dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Top Rated"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                app:drawableEndCompat="@drawable/star" />
+                <TextView
+                    android:id="@+id/top_rated_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="27dp"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="@{viewModel.state.data.topRatedMoviesTitle}"
+                    android:hideOnError="@{viewModel.topRatedMoviesState}"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    app:drawableEndCompat="@drawable/star" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_top_rated_movies"
                     android:layout_width="match_parent"
                     android:layout_height="220dp"
                     android:layout_marginTop="20dp"
+                    android:hideOnError="@{viewModel.topRatedMoviesState}"
                     android:clipToPadding="false"
                     android:orientation="horizontal"
                     android:paddingStart="30dp"
@@ -135,10 +149,11 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 
-        </LinearLayout>
+            </LinearLayout>
 
 
-    </androidx.core.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

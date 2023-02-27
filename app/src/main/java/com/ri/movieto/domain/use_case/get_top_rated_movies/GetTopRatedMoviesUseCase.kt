@@ -1,7 +1,8 @@
 package com.ri.movieto.domain.use_case.get_top_rated_movies
 
 import com.ri.movieto.common.Resource
-import com.ri.movieto.domain.mapper.MovieResponseDtoToDomain
+import com.ri.movieto.data.remote.dto.toDomain
+import com.ri.movieto.domain.decider.MovieDecider
 import com.ri.movieto.domain.model.MovieResponse
 import com.ri.movieto.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
@@ -12,13 +13,12 @@ import javax.inject.Inject
 
 class GetTopRatedMoviesUseCase @Inject constructor(
     private val repository: MovieRepository,
-    private val dtoMapper: MovieResponseDtoToDomain
+    private val decider: MovieDecider
 ) {
     operator fun invoke(): Flow<Resource<MovieResponse>> = flow {
         try {
             emit(Resource.Loading())
-            val movieResponseDto = repository.getTopRatedMovies()
-            val movieResponse = dtoMapper.mapFrom(movieResponseDto)
+            val movieResponse = repository.getTopRatedMovies().toDomain(decider)
             emit(Resource.Success(movieResponse))
         } catch (e: Exception) {
             emit(handleError(e))

@@ -2,11 +2,9 @@ package com.ri.movieto.domain.use_case.get_movide_detail
 
 import android.util.Log
 import com.ri.movieto.common.Resource
-import com.ri.movieto.data.remote.dto.GenreResponseDto
-import com.ri.movieto.data.remote.dto.movie_detail.MovieDetailDto
-import com.ri.movieto.domain.mapper.Mapper
+import com.ri.movieto.data.remote.dto.movie_detail.toDomain
+import com.ri.movieto.domain.decider.MovieDecider
 import com.ri.movieto.domain.model.MovieDetail
-import com.ri.movieto.domain.model.MovieResponse
 import com.ri.movieto.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -16,17 +14,14 @@ import javax.inject.Inject
 
 class GetMovieDetailUseCase @Inject constructor(
     private val repository: MovieRepository,
-    private val dtoMapper: Mapper<MovieDetailDto, MovieDetail>
+    private val decider: MovieDecider
 ) {
     operator fun invoke(id: Int): Flow<Resource<MovieDetail>> = flow {
         try {
             emit(Resource.Loading())
-            val movieDetailDto = repository.getMovieDetails(id)
-            Log.e("###",movieDetailDto.toString())
-            val movieDetail = dtoMapper.mapFrom(movieDetailDto)
+            val movieDetail = repository.getMovieDetails(id).toDomain(decider)
             emit(Resource.Success(movieDetail))
         } catch (e: Exception) {
-            Log.e("####", e.toString())
             emit(handleError(e))
         }
     }

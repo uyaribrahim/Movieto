@@ -3,11 +3,9 @@ package com.ri.movieto.util
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.ri.movieto.R
-import kotlin.math.roundToInt
 
 
 fun ImageView.downloadFromUrl(url: String?) {
@@ -20,25 +18,10 @@ fun ImageView.downloadFromUrl(url: String?) {
         .into(this)
 }
 
-@BindingAdapter("android:backdropPath")
-fun downloadBackdropImage(view: ImageView, url: String?) {
-    view.downloadFromUrl(url)
-}
-
-@BindingAdapter("android:posterPath")
-fun downloadPosterImage(view: ImageView, url: String?) {
-    view.downloadFromUrl(url)
-}
-
 fun TextView.changeBgBySelectedCategory(id: Int) {
     if (id == 0) {
         this.setBackgroundColor(ContextCompat.getColor(context, R.color.pink_panther))
     } else {
         this.setBackgroundColor(ContextCompat.getColor(context, R.color.midnight))
     }
-}
-
-@BindingAdapter("android:categoryId")
-fun getCategoryId(view: TextView, id: Int) {
-    view.changeBgBySelectedCategory(id)
 }
