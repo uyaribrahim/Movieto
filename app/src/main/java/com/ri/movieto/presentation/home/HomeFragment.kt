@@ -27,7 +27,7 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var trendingMoviesAdapter: TrendingMoviesAdapter
     private val categoryAdapter = CategoryAdapter(arrayListOf())
-    private val topRatedAdapter = TopRatedAdapter(arrayListOf())
+    private lateinit var topRatedAdapter: TopRatedAdapter
     private lateinit var rvTrendingMovies: RecyclerView
     private lateinit var rvTopRatedMovies: RecyclerView
     private lateinit var rvCategory: RecyclerView
@@ -49,6 +49,11 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         trendingMoviesAdapter = TrendingMoviesAdapter(arrayListOf()) { id ->
+            val action = HomeFragmentDirections.actionNavigationHomeToNavigationDetail(id)
+            view?.findNavController()?.navigate(action)
+        }
+
+        topRatedAdapter = TopRatedAdapter(arrayListOf()) { id ->
             val action = HomeFragmentDirections.actionNavigationHomeToNavigationDetail(id)
             view?.findNavController()?.navigate(action)
         }

@@ -1,9 +1,7 @@
 package com.ri.movieto.presentation.detail
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
 import com.ri.movieto.common.Resource
 import com.ri.movieto.domain.model.MovieDetail
 import com.ri.movieto.domain.use_case.get_movide_detail.GetMovieDetailUseCase
@@ -15,14 +13,24 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(private val getMovieDetailUseCase: GetMovieDetailUseCase) :
+class DetailViewModel @Inject constructor(
+    private val getMovieDetailUseCase: GetMovieDetailUseCase,
+    private val savedStateHandle: SavedStateHandle
+) :
     ViewModel() {
 
     private val _state = MutableStateFlow<Resource<MovieDetail>>(Resource.Loading())
     val state = _state.asStateFlow()
 
+    private val id = savedStateHandle.get<Int>("movie_id")
 
-    fun getMovieDetail(id: Int) {
+    init {
+        if (id != null) {
+            getMovieDetail(id)
+        }
+    }
+
+    private fun getMovieDetail(id: Int) {
         viewModelScope.launch {
             getMovieDetailUseCase(id).collect { result ->
                 _state.value = result
