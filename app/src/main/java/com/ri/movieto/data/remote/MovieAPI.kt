@@ -18,7 +18,7 @@ interface MovieAPI {
     @GET("3/genre/movie/list?api_key=${BuildConfig.TMDB_API_KEY}&language=en-US")
     suspend fun getMovieGenres(): GenreResponseDto
 
-    @GET("3/movie/{id}?api_key=${BuildConfig.TMDB_API_KEY}&language=en-US")
+    @GET("3/movie/{id}?api_key=${BuildConfig.TMDB_API_KEY}&language=en-US&append_to_response=videos")
     suspend fun getMovieDetails(@Path("id") id: Int): MovieDetailDto
 
 }

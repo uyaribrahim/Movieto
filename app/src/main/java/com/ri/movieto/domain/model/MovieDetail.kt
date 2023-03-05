@@ -6,5 +6,6 @@ data class MovieDetail(
     val overview: String?,
     val title: String,
     val poster_path: String?,
-    val vote_average: String
+    val vote_average: String,
+    val trailer_key: String = ""
 )

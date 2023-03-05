@@ -2,6 +2,7 @@ package com.ri.movieto.domain.decider
 
 import com.ri.movieto.common.Constants
 import com.ri.movieto.data.remote.dto.movie_detail.Genre
+import com.ri.movieto.data.remote.dto.movie_video.VideoResponseDto
 import kotlin.math.roundToInt
 
 class MovieDecider {
@@ -25,5 +26,13 @@ class MovieDecider {
         var label = ""
         firstThreeGenres.forEach { genre -> label += genre.name + " / " }
         return "$label$releaseYear"
+    }
+
+    fun provideTrailerKey(videos: VideoResponseDto): String {
+        val trailers = videos.results.filter { video ->
+            video.type == "Trailer" && video.site == "YouTube"
+        }
+        val trailer = trailers.elementAt(0)
+        return trailer.key
     }
 }
