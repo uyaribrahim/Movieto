@@ -13,4 +13,15 @@
         <item name="android:statusBarColor">@color/midnight</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/MyCustomTextAppearance</item>
+    </style>
+
+    <style name="MyCustomTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/montserrat_regular</item>
+    </style>
+
 </resources>

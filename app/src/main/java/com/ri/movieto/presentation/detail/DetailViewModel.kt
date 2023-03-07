@@ -19,7 +19,7 @@ class DetailViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private val _state = MutableStateFlow<Resource<MovieDetail>>(Resource.Loading())
+        private val _state = MutableStateFlow<Resource<MovieDetail>>(Resource.Loading())
     val state = _state.asStateFlow()
 
     private val id = savedStateHandle.get<Int>("movie_id")

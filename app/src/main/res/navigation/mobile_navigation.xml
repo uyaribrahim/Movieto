@@ -46,5 +46,17 @@
         <argument
             android:name="movie_id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_navigation_detail_to_movieFragment"
+            app:destination="@id/movieFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out" />
     </fragment>
+    <fragment
+        android:id="@+id/movieFragment"
+        android:name="com.ri.movieto.presentation.movie.MovieFragment"
+        android:label="fragment_movie"
+        tools:layout="@layout/fragment_movie" />
 </navigation>

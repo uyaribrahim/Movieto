@@ -32,7 +32,6 @@ class HomeFragment : Fragment() {
     private lateinit var rvTopRatedMovies: RecyclerView
     private lateinit var rvCategory: RecyclerView
     private lateinit var contentLayout: NestedScrollView
-    private lateinit var dataLoading: ProgressBar
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -61,12 +60,12 @@ class HomeFragment : Fragment() {
         rvTrendingMovies = binding.rvTrendingMovies
         rvTopRatedMovies = binding.rvTopRatedMovies
         rvCategory = binding.rvCategory
+
         rvTrendingMovies.adapter = trendingMoviesAdapter
         rvTopRatedMovies.adapter = topRatedAdapter
         rvCategory.adapter = categoryAdapter
 
         contentLayout = binding.contentLayout
-        dataLoading = binding.dataLoading
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = homeViewModel

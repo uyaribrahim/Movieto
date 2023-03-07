@@ -150,6 +150,7 @@
                             android:paddingEnd="42dp">
 
                             <Button
+                                android:id="@+id/playNow"
                                 android:layout_width="185dp"
                                 android:layout_height="50dp"
                                 android:background="@drawable/rounded_ripple"

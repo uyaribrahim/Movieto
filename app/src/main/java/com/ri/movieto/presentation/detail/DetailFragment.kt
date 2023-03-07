@@ -8,12 +8,14 @@ import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.ri.movieto.databinding.FragmentDetailBinding
+import com.ri.movieto.presentation.home.HomeFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -37,6 +39,7 @@ class DetailFragment : Fragment() {
     ): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         val backButton = binding.backButton
+        val playNow = binding.playNow
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = detailViewModel
         youtubePlayer = binding.youtubePlayerView
@@ -46,6 +49,12 @@ class DetailFragment : Fragment() {
         backButton.setOnClickListener {
             findNavController().navigateUp()
         }
+        playNow.setOnClickListener {
+            val action = DetailFragmentDirections.actionNavigationDetailToMovieFragment()
+            view?.findNavController()?.navigate(action)
+        }
+
+
         observeDetailViewModelState()
 
         return binding.root
