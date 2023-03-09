@@ -58,5 +58,11 @@
         android:id="@+id/movieFragment"
         android:name="com.ri.movieto.presentation.movie.MovieFragment"
         android:label="fragment_movie"
-        tools:layout="@layout/fragment_movie" />
+        tools:layout="@layout/fragment_movie">
+
+        <argument
+            android:name="movie_detail"
+            app:argType="com.ri.movieto.domain.model.MovieDetail" />
+
+    </fragment>
 </navigation>

@@ -6,18 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.ri.movieto.databinding.FragmentDetailBinding
-import com.ri.movieto.presentation.home.HomeFragmentDirections
+import com.ri.movieto.domain.model.MovieDetail
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -27,6 +29,7 @@ class DetailFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var detailViewModel: DetailViewModel
     private lateinit var youtubePlayer: YouTubePlayerView
+    private lateinit var movieDetail: MovieDetail
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +53,7 @@ class DetailFragment : Fragment() {
             findNavController().navigateUp()
         }
         playNow.setOnClickListener {
-            val action = DetailFragmentDirections.actionNavigationDetailToMovieFragment()
+            val action = DetailFragmentDirections.actionNavigationDetailToMovieFragment(movieDetail)
             view?.findNavController()?.navigate(action)
         }
 
@@ -61,10 +64,15 @@ class DetailFragment : Fragment() {
     }
 
     private fun observeDetailViewModelState() {
-        lifecycleScope.launchWhenStarted {
-            detailViewModel.state.collectLatest { state ->
-                state.data?.trailer_key.let {
-                    playerListener(it)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                detailViewModel.state.collectLatest { state ->
+                    state.data?.trailer_key.let {
+                        playerListener(it)
+                    }
+                    if (state.data != null) {
+                        movieDetail = state.data
+                    }
                 }
             }
         }

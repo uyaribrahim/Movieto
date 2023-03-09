@@ -1,9 +1,10 @@
-package com.ri.movieto.domain.use_case.get_movide_detail
+package com.ri.movieto.domain.use_case.get_movie_credits
 
 import android.util.Log
 import com.ri.movieto.common.Resource
-import com.ri.movieto.data.remote.dto.movie_detail.toDomain
+import com.ri.movieto.data.remote.dto.toDomain
 import com.ri.movieto.domain.decider.MovieDecider
+import com.ri.movieto.domain.model.Credit
 import com.ri.movieto.domain.model.MovieDetail
 import com.ri.movieto.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
@@ -12,22 +13,22 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class GetMovieDetailUseCase @Inject constructor(
+class GetMovieCreditsUseCase @Inject constructor(
     private val repository: MovieRepository,
     private val decider: MovieDecider
 ) {
-    operator fun invoke(id: Int): Flow<Resource<MovieDetail>> = flow {
+
+    operator fun invoke(id: Int): Flow<Resource<Credit>> = flow {
         try {
             emit(Resource.Loading())
-            val movieDetail = repository.getMovieDetails(id).toDomain(decider)
-            emit(Resource.Success(movieDetail))
+            val credits = repository.getMovieCredits(id).toDomain(decider)
+            emit(Resource.Success(credits))
         } catch (e: Exception) {
-            Log.e("!!!!",e.message.toString())
             emit(handleError(e))
         }
     }
 
-    private fun handleError(e: Exception): Resource<MovieDetail> {
+    private fun handleError(e: Exception): Resource<Credit> {
         return when (e) {
             is HttpException -> Resource.Error(e.localizedMessage ?: "Beklenmeyen bir hata oluştu")
             is IOException -> Resource.Error("Lütfen internet bağlantınızı kontrol edin")

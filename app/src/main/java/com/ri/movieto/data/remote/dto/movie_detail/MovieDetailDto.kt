@@ -1,6 +1,6 @@
 package com.ri.movieto.data.remote.dto.movie_detail
 
-import com.ri.movieto.data.remote.dto.movie_video.VideoResponseDto
+import com.ri.movieto.data.remote.dto.VideoResponseDto
 import com.ri.movieto.domain.decider.MovieDecider
 import com.ri.movieto.domain.model.MovieDetail
 
@@ -41,6 +41,8 @@ fun MovieDetailDto.toDomain(decider: MovieDecider): MovieDetail {
         poster_path = decider.providePosterPath(poster_path),
         vote_average = decider.provideRoundedAverage(vote_average),
         movie_label = decider.provideMovieLabel(release_date, genres),
-        trailer_key = decider.provideTrailerKey(videos)
+        trailer_key = decider.provideVideoKey(videos, "Trailer"),
+        clip_key = decider.provideVideoKey(videos, "Clip"),
+        tagline = tagline
     )
 }

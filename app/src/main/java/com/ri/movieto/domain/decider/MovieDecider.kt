@@ -2,13 +2,15 @@ package com.ri.movieto.domain.decider
 
 import com.ri.movieto.common.Constants
 import com.ri.movieto.data.remote.dto.movie_detail.Genre
-import com.ri.movieto.data.remote.dto.movie_video.VideoResponseDto
+import com.ri.movieto.data.remote.dto.VideoResponseDto
 import kotlin.math.roundToInt
 
 class MovieDecider {
     fun provideBackdropPath(path: String?): String = "${Constants.BACKDROP_PATH}$path"
 
     fun providePosterPath(path: String?): String = "${Constants.POSTER_PATH}$path"
+
+    fun provideProfilePath(path: String?): String = "${Constants.PROFILE_PATH}$path"
 
     fun provideRoundedAverage(vote_average: Double): String {
         val roundOff = (vote_average * 10.0).roundToInt() / 10.0
@@ -28,11 +30,16 @@ class MovieDecider {
         return "$label$releaseYear"
     }
 
-    fun provideTrailerKey(videos: VideoResponseDto): String {
-        val trailers = videos.results.filter { video ->
-            video.type == "Trailer" && video.site == "YouTube"
+    fun provideVideoKey(videos: VideoResponseDto, type: String): String {
+        var youtubeVideos = videos.results.filter { video ->
+            video.type == type && video.site == "YouTube"
         }
-        val trailer = trailers.elementAt(0)
-        return trailer.key
+        if(youtubeVideos.isEmpty()){
+            youtubeVideos = videos.results.filter { video ->
+                video.site == "YouTube"
+            }
+        }
+        val video = youtubeVideos.elementAt(0)
+        return video.key
     }
 }

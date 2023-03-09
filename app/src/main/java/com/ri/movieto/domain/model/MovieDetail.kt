@@ -7,5 +7,8 @@ data class MovieDetail(
     val title: String,
     val poster_path: String?,
     val vote_average: String,
-    val trailer_key: String = ""
-)
+    val trailer_key: String = "",
+    val clip_key: String = "",
+    val tagline: String? = ""
+) : java.io.Serializable
+

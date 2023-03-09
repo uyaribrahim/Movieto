@@ -1,25 +1,35 @@
 package com.ri.movieto.presentation.movie
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.NonNull
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.ri.movieto.adapter.ViewPagerAdapter
 import com.ri.movieto.common.MovieTab
 import com.ri.movieto.databinding.FragmentMovieBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MovieFragment : Fragment() {
 
     private var _binding: FragmentMovieBinding? = null
     private val binding get() = _binding!!
     private lateinit var movieViewModel: MovieViewModel
     private lateinit var viewPagerAdapter: ViewPagerAdapter
+    private lateinit var youtubePlayer: YouTubePlayerView
+    private val args: MovieFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,9 +41,21 @@ class MovieFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMovieBinding.inflate(inflater,container,false)
+
+        binding.apply {
+            viewModel = movieViewModel
+            lifecycleOwner = viewLifecycleOwner
+            youtubePlayer = youtubePlayerView
+        }
+        lifecycle.addObserver(youtubePlayer)
+
         val backButton = binding.backButton
         val tabLayout = binding.tabLayout
         val viewPager = binding.viewPager
+
+        val clipKey = movieViewModel.getMovieClipKey()
+        playerListener(clipKey)
+
         viewPagerAdapter = ViewPagerAdapter(this)
         viewPager.adapter = viewPagerAdapter
 
@@ -75,6 +97,17 @@ class MovieFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun playerListener(video_key: String?): Boolean {
+        return youtubePlayer.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(@NonNull player: YouTubePlayer) {
+                if (video_key != null) {
+                    player.cueVideo(video_key, 0f)
+                }
+            }
+
+        })
     }
 
 

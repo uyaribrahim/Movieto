@@ -1,6 +1,7 @@
 package com.ri.movieto.data.repository
 
 import com.ri.movieto.data.remote.MovieAPI
+import com.ri.movieto.data.remote.dto.CreditDto
 import com.ri.movieto.data.remote.dto.GenreResponseDto
 import com.ri.movieto.data.remote.dto.MovieResponseDto
 import com.ri.movieto.data.remote.dto.movie_detail.MovieDetailDto
@@ -15,5 +16,6 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun getTopRatedMovies(): MovieResponseDto = api.getTopRatedMovies()
     override suspend fun getMovieGenres(): GenreResponseDto = api.getMovieGenres()
     override suspend fun getMovieDetails(id: Int): MovieDetailDto = api.getMovieDetails(id)
+    override suspend fun getMovieCredits(id: Int): CreditDto = api.getMovieCredits(id)
 
 }
