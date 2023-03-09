@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ri.movieto.R
-import com.ri.movieto.domain.model.GenreResponse
 import com.ri.movieto.databinding.ItemCategoryBinding
+import com.ri.movieto.domain.model.GenreResponse
 
 class CategoryAdapter(private val categoryList: ArrayList<GenreResponse.Genre>) :
     RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {

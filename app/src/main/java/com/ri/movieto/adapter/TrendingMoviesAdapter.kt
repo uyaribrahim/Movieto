@@ -2,17 +2,12 @@ package com.ri.movieto.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.ri.movieto.R
-import com.ri.movieto.domain.model.MovieResponse
 import com.ri.movieto.databinding.ItemTrendingMoviesBinding
-import com.ri.movieto.presentation.home.HomeFragmentDirections
+import com.ri.movieto.domain.model.MovieResponse
 
 class TrendingMoviesAdapter(
     private val movieList: ArrayList<MovieResponse.Movie>,

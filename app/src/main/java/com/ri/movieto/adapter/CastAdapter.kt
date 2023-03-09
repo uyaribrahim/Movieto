@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ri.movieto.R
 import com.ri.movieto.databinding.ItemCastBinding
 import com.ri.movieto.domain.model.Credit
-import com.ri.movieto.domain.model.GenreResponse
 
 class CastAdapter(private val castList: ArrayList<Credit.Cast>) :
     RecyclerView.Adapter<CastAdapter.CastViewHolder>() {

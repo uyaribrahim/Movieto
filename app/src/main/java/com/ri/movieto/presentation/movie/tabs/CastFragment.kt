@@ -1,9 +1,7 @@
 package com.ri.movieto.presentation.movie.tabs
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -11,7 +9,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.RecyclerView
 import com.ri.movieto.adapter.CastAdapter
 import com.ri.movieto.databinding.FragmentCastBinding
 import com.ri.movieto.presentation.movie.MovieViewModel

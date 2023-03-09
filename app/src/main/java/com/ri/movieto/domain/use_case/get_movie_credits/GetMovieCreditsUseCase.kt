@@ -1,11 +1,9 @@
 package com.ri.movieto.domain.use_case.get_movie_credits
 
-import android.util.Log
 import com.ri.movieto.common.Resource
 import com.ri.movieto.data.remote.dto.toDomain
 import com.ri.movieto.domain.decider.MovieDecider
 import com.ri.movieto.domain.model.Credit
-import com.ri.movieto.domain.model.MovieDetail
 import com.ri.movieto.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

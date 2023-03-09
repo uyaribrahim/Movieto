@@ -1,8 +1,8 @@
 package com.ri.movieto.domain.decider
 
 import com.ri.movieto.common.Constants
-import com.ri.movieto.data.remote.dto.movie_detail.Genre
 import com.ri.movieto.data.remote.dto.VideoResponseDto
+import com.ri.movieto.data.remote.dto.movie_detail.Genre
 import kotlin.math.roundToInt
 
 class MovieDecider {

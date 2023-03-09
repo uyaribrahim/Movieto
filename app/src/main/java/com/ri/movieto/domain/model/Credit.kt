@@ -1,7 +1,5 @@
 package com.ri.movieto.domain.model
 
-import com.ri.movieto.data.remote.dto.CreditDto
-
 class Credit(
     val cast: List<Cast>
 ) {

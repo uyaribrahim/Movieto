@@ -6,7 +6,6 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.ri.movieto.common.Resource
 import com.ri.movieto.util.changeBgBySelectedCategory
 import com.ri.movieto.util.downloadFromUrl

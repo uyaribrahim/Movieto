@@ -1,6 +1,5 @@
 package com.ri.movieto.presentation.movie
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.ri.movieto.common.Resource
 import com.ri.movieto.domain.model.Credit

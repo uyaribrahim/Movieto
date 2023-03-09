@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ri.movieto.R
-import com.ri.movieto.domain.model.MovieResponse
 import com.ri.movieto.databinding.ItemTopRatedBinding
+import com.ri.movieto.domain.model.MovieResponse
 
 class TopRatedAdapter(
     private val movieList: ArrayList<MovieResponse.Movie>,

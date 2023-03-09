@@ -1,8 +1,6 @@
 package com.ri.movieto.common
 
 import com.ri.movieto.BuildConfig
-import com.ri.movieto.data.model.GenreResponse
-import java.util.Objects
 
 object Constants {
 
