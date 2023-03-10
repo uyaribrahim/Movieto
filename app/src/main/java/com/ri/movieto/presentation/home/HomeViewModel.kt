@@ -32,7 +32,7 @@ class HomeViewModel @Inject constructor(
     private val _genres = MutableStateFlow<Resource<GenreResponse>>(Resource.Loading())
     val genres = _genres.asStateFlow()
 
-    private val _state = MutableStateFlow<Resource<HomeFragmentData>>(Resource.Loading())
+    private val _state = MutableStateFlow<Resource<HomeFragmentViewState>>(Resource.Loading())
     val state = _state.asStateFlow()
 
     init {
@@ -77,7 +77,7 @@ class HomeViewModel @Inject constructor(
     private fun handleCompletion(error: Throwable?) {
         if (error == null) {
             _state.value = Resource.Success(
-                HomeFragmentData(
+                HomeFragmentViewState(
                     trendingMoviesState.value.data,
                     topRatedMoviesState.value.data,
                     genres.value.data

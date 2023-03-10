@@ -3,7 +3,7 @@ package com.ri.movieto.presentation.home
 import com.ri.movieto.domain.model.GenreResponse
 import com.ri.movieto.domain.model.MovieResponse
 
-data class HomeFragmentData(
+data class HomeFragmentViewState(
     private val trendingMovies: MovieResponse?,
     private val topRatedMovies: MovieResponse?,
     private val genres: GenreResponse?,
