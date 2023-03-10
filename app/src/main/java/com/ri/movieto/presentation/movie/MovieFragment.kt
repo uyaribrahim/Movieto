@@ -57,6 +57,7 @@ class MovieFragment : Fragment() {
 
         viewPagerAdapter = ViewPagerAdapter(this)
         viewPager.adapter = viewPagerAdapter
+        viewPager.isUserInputEnabled = false
 
         TabLayoutMediator(tabLayout, viewPager){ tab, position ->
             tab.text =   MovieTab.values()[position].title

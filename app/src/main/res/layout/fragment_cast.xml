@@ -15,28 +15,19 @@
             android:layout_height="match_parent"
             tools:context=".presentation.movie.tabs.CastFragment">
 
-            <com.ri.movieto.custom_view.CustomRecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCast"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hideOnLoading="@{viewModel.castState}"
                 android:orientation="horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:clipToPadding="false"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:saveEnabled="false"
-                android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/rvCast"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:hideOnLoading="@{viewModel.castState}"-->
-<!--                android:nestedScrollingEnabled="false"-->
-<!--                android:touchscreenBlocksFocus="true"-->
-<!--                android:orientation="horizontal"-->
-<!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />-->
 
             <ProgressBar
                 android:layout_width="wrap_content"

@@ -40,13 +40,14 @@ data class CreditDto(
 
 fun CreditDto.toDomain(decider: MovieDecider): Credit {
     return Credit(
-        cast = cast.map { person ->
-            Credit.Cast(
-                id = person.id,
-                character = person.character,
-                name = person.name,
-                profilePath = decider.provideProfilePath(person.profile_path)
+        cast = cast.filter { it.profile_path != null }
+            .map { person ->
+                Credit.Cast(
+                    id = person.id,
+                    character = person.character,
+                    name = person.name,
+                    profilePath = decider.provideProfilePath(person.profile_path)
                 )
-        }
+            }
     )
 }
