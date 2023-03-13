@@ -5,6 +5,7 @@ import com.ri.movieto.data.remote.MovieAPI
 import com.ri.movieto.data.repository.MovieRepositoryImpl
 import com.ri.movieto.domain.decider.MovieDecider
 import com.ri.movieto.domain.repository.MovieRepository
+import com.ri.movieto.error.ErrorHandler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,6 +41,12 @@ object AppModule {
     fun provideMovieItemDecider(
     ): MovieDecider {
         return MovieDecider()
+    }
+
+    @Provides
+    @Singleton
+    fun provideErrorHandler(): ErrorHandler {
+        return ErrorHandler()
     }
 
 

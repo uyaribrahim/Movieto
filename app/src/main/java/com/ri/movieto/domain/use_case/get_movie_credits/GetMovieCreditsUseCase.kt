@@ -5,6 +5,7 @@ import com.ri.movieto.data.remote.dto.toDomain
 import com.ri.movieto.domain.decider.MovieDecider
 import com.ri.movieto.domain.model.Credit
 import com.ri.movieto.domain.repository.MovieRepository
+import com.ri.movieto.error.ErrorHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 class GetMovieCreditsUseCase @Inject constructor(
     private val repository: MovieRepository,
-    private val decider: MovieDecider
+    private val decider: MovieDecider,
+    private val errorHandler: ErrorHandler
 ) {
 
     operator fun invoke(id: Int): Flow<Resource<Credit>> = flow {
@@ -22,15 +24,8 @@ class GetMovieCreditsUseCase @Inject constructor(
             val credits = repository.getMovieCredits(id).toDomain(decider)
             emit(Resource.Success(credits))
         } catch (e: Exception) {
-            emit(handleError(e))
-        }
-    }
-
-    private fun handleError(e: Exception): Resource<Credit> {
-        return when (e) {
-            is HttpException -> Resource.Error(e.localizedMessage ?: "Beklenmeyen bir hata oluştu")
-            is IOException -> Resource.Error("Lütfen internet bağlantınızı kontrol edin")
-            else -> Resource.Error("Beklenmeyen bir hata oluştu")
+            val error = errorHandler.getErrorMessage(e)
+            emit(Resource.Error(error))
         }
     }
 }
