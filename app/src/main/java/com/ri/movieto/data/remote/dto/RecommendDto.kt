@@ -3,14 +3,14 @@ package com.ri.movieto.data.remote.dto
 import com.ri.movieto.domain.decider.MovieDecider
 import com.ri.movieto.domain.model.Recommend
 
-data class SimilarDto(
+data class RecommendDto(
     val page: Int,
     val results: List<MovieResponseDto.MovieDto>,
     val total_pages: Int,
     val total_results: Int
 )
 
-fun SimilarDto.toDomain(decider: MovieDecider): Recommend {
+fun RecommendDto.toDomain(decider: MovieDecider): Recommend {
     return Recommend(
         results = results.filter { it.backdrop_path != null }
             .map { movie ->

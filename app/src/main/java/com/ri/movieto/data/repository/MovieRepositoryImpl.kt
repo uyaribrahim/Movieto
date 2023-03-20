@@ -1,10 +1,7 @@
 package com.ri.movieto.data.repository
 
 import com.ri.movieto.data.remote.MovieAPI
-import com.ri.movieto.data.remote.dto.CreditDto
-import com.ri.movieto.data.remote.dto.GenreResponseDto
-import com.ri.movieto.data.remote.dto.MovieResponseDto
-import com.ri.movieto.data.remote.dto.SimilarDto
+import com.ri.movieto.data.remote.dto.*
 import com.ri.movieto.data.remote.dto.movie_detail.MovieDetailDto
 import com.ri.movieto.domain.repository.MovieRepository
 import javax.inject.Inject
@@ -18,6 +15,7 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun getMovieGenres(): GenreResponseDto = api.getMovieGenres()
     override suspend fun getMovieDetails(id: Int): MovieDetailDto = api.getMovieDetails(id)
     override suspend fun getMovieCredits(id: Int): CreditDto = api.getMovieCredits(id)
-    override suspend fun getMovieSimilar(id: Int): SimilarDto = api.getMovieSimilar(id)
+    override suspend fun getMovieRecommend(id: Int): RecommendDto = api.getMovieRecommend(id)
+    override suspend fun getMovieReviews(id: Int): ReviewResponseDto = api.getMovieReviews(id)
 
 }

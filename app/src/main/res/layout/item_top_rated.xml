@@ -23,7 +23,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
                 android:src="@drawable/placeholder"
-                android:posterPath="@{movie.poster_path}"/>
+                android:image="@{movie.poster_path}"/>
 
             <View
                 android:layout_width="match_parent"

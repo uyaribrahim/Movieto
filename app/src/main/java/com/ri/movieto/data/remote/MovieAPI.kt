@@ -2,10 +2,7 @@ package com.ri.movieto.data.remote
 
 import com.ri.movieto.BuildConfig
 import com.ri.movieto.common.Constants
-import com.ri.movieto.data.remote.dto.CreditDto
-import com.ri.movieto.data.remote.dto.GenreResponseDto
-import com.ri.movieto.data.remote.dto.MovieResponseDto
-import com.ri.movieto.data.remote.dto.SimilarDto
+import com.ri.movieto.data.remote.dto.*
 import com.ri.movieto.data.remote.dto.movie_detail.MovieDetailDto
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -28,6 +25,9 @@ interface MovieAPI {
     suspend fun getMovieCredits(@Path("id") id: Int): CreditDto
 
     @GET("movie/{id}/recommendations?${Constants.API_KEY_WITH_PREFIX}&language=en-US&page=1")
-    suspend fun getMovieSimilar(@Path("id") id: Int): SimilarDto
+    suspend fun getMovieRecommend(@Path("id") id: Int): RecommendDto
+
+    @GET("movie/{id}/reviews?${Constants.API_KEY_WITH_PREFIX}&language=en-US&page=1")
+    suspend fun getMovieReviews(@Path("id") id: Int): ReviewResponseDto
 
 }

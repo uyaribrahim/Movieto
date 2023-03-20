@@ -1,5 +1,6 @@
 package com.ri.movieto.adapter.binding
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -8,6 +9,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.ri.movieto.common.Resource
 import com.ri.movieto.util.changeBgBySelectedCategory
+import com.ri.movieto.util.downloadCircleImage
 import com.ri.movieto.util.downloadFromUrl
 
 @BindingAdapter("android:hideOnLoading")
@@ -43,17 +45,24 @@ fun View.hideOnError(state: Resource<*>) {
         View.VISIBLE
 }
 
-@BindingAdapter("android:backdropPath")
-fun downloadBackdropImage(view: ImageView, url: String?) {
+@BindingAdapter("android:image")
+fun downloadImage(view: ImageView, url: String?) {
     view.downloadFromUrl(url)
 }
 
-@BindingAdapter("android:posterPath")
-fun downloadPosterImage(view: ImageView, url: String?) {
-    view.downloadFromUrl(url)
+@BindingAdapter("android:circleImage")
+fun downloadAvatarImage(view: ImageView, url: String?) {
+    view.downloadCircleImage(url)
 }
 
 @BindingAdapter("android:categoryId")
 fun getCategoryId(view: TextView, id: Int) {
     view.changeBgBySelectedCategory(id)
+}
+
+@BindingAdapter("android:hideIfNull")
+fun View.hideIfNull(value: String?) {
+    visibility = if (value == null) {
+        View.GONE
+    } else View.VISIBLE
 }

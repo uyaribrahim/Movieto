@@ -18,6 +18,17 @@ fun ImageView.downloadFromUrl(url: String?) {
         .into(this)
 }
 
+fun ImageView.downloadCircleImage(url: String?) {
+    val options = RequestOptions()
+        .placeholder(R.drawable.placeholder)
+
+    Glide.with(context)
+        .setDefaultRequestOptions(options)
+        .load(url)
+        .circleCrop()
+        .into(this)
+}
+
 fun TextView.changeBgBySelectedCategory(id: Int) {
     if (id == 0) {
         this.setBackgroundColor(ContextCompat.getColor(context, R.color.pink_panther))

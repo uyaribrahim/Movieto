@@ -91,7 +91,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="560dp"
-                        android:posterPath="@{viewModel.state.toData().poster_path}"
+                        android:image="@{viewModel.state.toData().poster_path}"
                         android:scaleType="fitXY" />
 
                     <View
