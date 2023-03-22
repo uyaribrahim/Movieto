@@ -6,6 +6,9 @@
         <variable
             name="category"
             type="com.ri.movieto.domain.model.GenreResponse.Genre" />
+        <variable
+            name="isSelected"
+            type="Boolean" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -20,9 +23,9 @@
             android:paddingHorizontal="29dp"
             android:minWidth="120dp"
             android:text="@{category.name}"
-            android:categoryId="@{category.id}"
-            android:background="@color/midnight"
+            android:isSelectedCategory="@{isSelected}"
             android:textColor="@color/white"
+            android:background="@color/midnight"
             android:gravity="center|center_vertical"
             android:fontFamily="@font/montserrat_bold"
             android:textSize="17sp"

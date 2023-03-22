@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.ri.movieto.presentation.home.HomeViewModel" />
@@ -53,26 +54,54 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center"
-            android:showOnLoading="@{viewModel.state}"
             android:indeterminateTint="@color/pink_panther"
+            android:showOnLoading="@{viewModel.state}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/category_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Category"
+            android:hideOnError="@{viewModel.genres}"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/rv_category"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_category"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:hideOnError="@{viewModel.genres}"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@+id/category_title"
+            tools:layout_editor_absoluteX="0dp" />
+
         <androidx.core.widget.NestedScrollView
             android:id="@+id/content_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="20dp"
             android:hideOnLoading="@{viewModel.state}"
+            android:paddingTop="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header">
+            app:layout_constraintTop_toBottomOf="@id/rv_category">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -80,47 +109,41 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
-                    android:hideOnError="@{viewModel.trendingMoviesState}"
+                    android:layout_marginTop="15dp"
                     android:fontFamily="@font/montserrat_bold"
+                    android:hideOnError="@{viewModel.trendingMoviesState}"
                     android:text="@{viewModel.state.data.trendingMoviesTitle}"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_trending_movies"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="220dp"
-                    android:layout_marginTop="20dp"
-                    android:hideOnError="@{viewModel.trendingMoviesState}"
-                    android:clipToPadding="false"
-                    android:orientation="horizontal"
-                    android:paddingStart="30dp"
-                    android:paddingEnd="30dp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    android:layout_marginTop="20dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_trending_movies"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp"
+                        android:clipToPadding="false"
+                        android:hideOnError="@{viewModel.trendingMoviesState}"
+                        android:hideOnLoading="@{viewModel.trendingMoviesState}"
+                        android:orientation="horizontal"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="30dp"
+                        android:saveEnabled="false"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    <ProgressBar
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:indeterminateTint="@color/pink_panther"
+                        android:showOnLoading="@{viewModel.trendingMoviesState}" />
 
 
-                <TextView
-                    android:id="@+id/category_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="27dp"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:text="Category"
-                    android:textColor="@color/white"
-                    android:textSize="24sp" />
+                </FrameLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_category"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="20dp"
-                    android:clipToPadding="false"
-                    android:orientation="horizontal"
-                    android:paddingStart="30dp"
-                    android:paddingEnd="30dp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:layout_editor_absoluteX="0dp" />
 
                 <TextView
                     android:id="@+id/top_rated_title"
@@ -130,23 +153,39 @@
                     android:layout_marginTop="27dp"
                     android:drawablePadding="10dp"
                     android:fontFamily="@font/montserrat_bold"
-                    android:text="@{viewModel.state.data.topRatedMoviesTitle}"
                     android:hideOnError="@{viewModel.topRatedMoviesState}"
+                    android:text="@{viewModel.state.data.topRatedMoviesTitle}"
                     android:textColor="@color/white"
                     android:textSize="24sp"
                     app:drawableEndCompat="@drawable/star" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_top_rated_movies"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="220dp"
-                    android:layout_marginTop="20dp"
-                    android:hideOnError="@{viewModel.topRatedMoviesState}"
-                    android:clipToPadding="false"
-                    android:orientation="horizontal"
-                    android:paddingStart="30dp"
-                    android:paddingEnd="30dp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    android:layout_marginTop="20dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_top_rated_movies"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp"
+                        android:clipToPadding="false"
+                        android:hideOnError="@{viewModel.topRatedMoviesState}"
+                        android:hideOnLoading="@{viewModel.topRatedMoviesState}"
+                        android:orientation="horizontal"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="30dp"
+                        android:saveEnabled="false"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    <ProgressBar
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:indeterminateTint="@color/pink_panther"
+                        android:showOnLoading="@{viewModel.topRatedMoviesState}" />
+
+
+                </FrameLayout>
 
 
             </LinearLayout>

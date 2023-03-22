@@ -12,4 +12,5 @@ interface MovieRepository {
     suspend fun getMovieCredits(id: Int): CreditDto
     suspend fun getMovieRecommend(id: Int): RecommendDto
     suspend fun getMovieReviews(id: Int): ReviewResponseDto
+    suspend fun getMoviesByCategory(category_id: Int, sort: String): MovieResponseDto
 }

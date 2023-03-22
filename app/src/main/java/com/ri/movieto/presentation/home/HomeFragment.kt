@@ -1,15 +1,20 @@
 package com.ri.movieto.presentation.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.ri.movieto.adapter.CategoryAdapter
 import com.ri.movieto.adapter.TopRatedAdapter
 import com.ri.movieto.adapter.TrendingMoviesAdapter
@@ -18,6 +23,7 @@ import com.ri.movieto.domain.model.GenreResponse
 import com.ri.movieto.domain.model.MovieResponse
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -25,7 +31,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var trendingMoviesAdapter: TrendingMoviesAdapter
-    private val categoryAdapter = CategoryAdapter(arrayListOf())
+    private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var topRatedAdapter: TopRatedAdapter
     private lateinit var rvTrendingMovies: RecyclerView
     private lateinit var rvTopRatedMovies: RecyclerView
@@ -56,9 +62,16 @@ class HomeFragment : Fragment() {
             view?.findNavController()?.navigate(action)
         }
 
+        categoryAdapter =
+            CategoryAdapter(arrayListOf(), homeViewModel.selectedCategoryIndex.value!!) { id ->
+                homeViewModel.onSelectCategory(id)
+            }
+
         rvTrendingMovies = binding.rvTrendingMovies
         rvTopRatedMovies = binding.rvTopRatedMovies
         rvCategory = binding.rvCategory
+        (rvCategory.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+
 
         rvTrendingMovies.adapter = trendingMoviesAdapter
         rvTopRatedMovies.adapter = topRatedAdapter
@@ -81,16 +94,25 @@ class HomeFragment : Fragment() {
         topRatedAdapter: TopRatedAdapter,
         categoryAdapter: CategoryAdapter
     ) {
-        lifecycleScope.launchWhenStarted {
-            homeViewModel.state.collectLatest { state ->
-                state.data?.getTrendingMovies().let {
-                    updateTrendingMovies(it, trendingMoviesAdapter)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                homeViewModel.state.collectLatest { state ->
+                    state.data?.getTrendingMovies().let {
+                        updateTrendingMovies(it, trendingMoviesAdapter)
+                    }
+                    state.data?.getTopRatedMovies().let {
+                        Log.e("++++", it.toString())
+                        updateTopRatedMovies(it, topRatedAdapter)
+                    }
                 }
-                state.data?.getTopRatedMovies().let {
-                    updateTopRatedMovies(it, topRatedAdapter)
-                }
-                state.data?.getGenres().let {
-                    updateCategories(it, categoryAdapter)
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                homeViewModel.genres.collectLatest { state ->
+                    state.data?.let {
+                        updateCategories(it, categoryAdapter)
+                    }
                 }
             }
         }
@@ -101,12 +123,14 @@ class HomeFragment : Fragment() {
     ) {
         if (state != null) {
             trendingMoviesAdapter.updateMovieList(state.movies)
+            rvTrendingMovies.scrollToPosition(0)
         }
     }
 
     private fun updateTopRatedMovies(state: MovieResponse?, topRatedAdapter: TopRatedAdapter) {
         if (state != null) {
             topRatedAdapter.updateMovieList(state.movies)
+            rvTopRatedMovies.scrollToPosition(0)
         }
     }
 

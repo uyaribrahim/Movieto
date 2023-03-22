@@ -17,5 +17,6 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun getMovieCredits(id: Int): CreditDto = api.getMovieCredits(id)
     override suspend fun getMovieRecommend(id: Int): RecommendDto = api.getMovieRecommend(id)
     override suspend fun getMovieReviews(id: Int): ReviewResponseDto = api.getMovieReviews(id)
+    override suspend fun getMoviesByCategory(category_id: Int, sort: String): MovieResponseDto = api.getMoviesByCategory(category_id,sort)
 
 }

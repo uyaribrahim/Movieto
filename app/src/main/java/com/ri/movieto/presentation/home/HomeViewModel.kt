@@ -1,18 +1,19 @@
 package com.ri.movieto.presentation.home
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ri.movieto.common.Resource
 import com.ri.movieto.domain.model.GenreResponse
 import com.ri.movieto.domain.model.MovieResponse
 import com.ri.movieto.domain.use_case.get_movie_genres.GetMovieGenresUseCase
+import com.ri.movieto.domain.use_case.get_movies_by_genre.GetMoviesByGenreUseCase
 import com.ri.movieto.domain.use_case.get_top_rated_movies.GetTopRatedMoviesUseCase
 import com.ri.movieto.domain.use_case.get_trending_movies.GetTrendingMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,6 +22,7 @@ class HomeViewModel @Inject constructor(
     private val getTrendingMoviesUseCase: GetTrendingMoviesUseCase,
     private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase,
     private val getMovieGenresUseCase: GetMovieGenresUseCase,
+    private val getMoviesByGenreUseCase: GetMoviesByGenreUseCase
 ) : ViewModel() {
 
     private val _trendingMoviesState = MutableStateFlow<Resource<MovieResponse>>(Resource.Loading())
@@ -35,30 +37,59 @@ class HomeViewModel @Inject constructor(
     private val _state = MutableStateFlow<Resource<HomeFragmentViewState>>(Resource.Loading())
     val state = _state.asStateFlow()
 
+    private val _selectedCategoryIndex = MutableLiveData(0)
+    val selectedCategoryIndex: LiveData<Int> get() = _selectedCategoryIndex
+
     init {
+        getGenres()
         getData()
+    }
+
+    private fun getGenres() = viewModelScope.launch {
+        getMovieGenresUseCase().collect { result ->
+            _genres.value = result
+        }
+    }
+
+    fun onSelectCategory(category: GenreResponse.Genre) {
+        _selectedCategoryIndex.value = genres.value.data?.genres?.indexOf(category) ?: 0
+        if(category.id == 0){
+            getData()
+            return
+        }
+        filterByCategory(category.id)
     }
 
     private fun getData() = viewModelScope.launch {
 
         val trendingMoviesFlow = getTrendingMoviesUseCase()
         val topRatedMoviesFlow = getTopRatedMoviesUseCase()
-        val movieGenresFlow = getMovieGenresUseCase()
 
+        combineFlow(trendingMoviesFlow,topRatedMoviesFlow)
+    }
+
+    private fun filterByCategory(category_id: Int) = viewModelScope.launch {
+        val trendingMoviesFlow = getMoviesByGenreUseCase(category_id, "popularity.desc")
+        val topRatedMoviesFlow = getMoviesByGenreUseCase(category_id, "vote_count.desc")
+        combineFlow(trendingMoviesFlow,topRatedMoviesFlow)
+    }
+
+    private fun combineFlow(
+        trendingMoviesFlow: Flow<Resource<MovieResponse>>,
+        topRatedMoviesFlow: Flow<Resource<MovieResponse>>
+    ) = viewModelScope.launch {
         combine(
             trendingMoviesFlow,
-            topRatedMoviesFlow,
-            movieGenresFlow
-        ) { trendingMoviesResult, topRatedMoviesResult, genresResult ->
-            // combine the three results into a single object
-            Triple(trendingMoviesResult, topRatedMoviesResult, genresResult)
+            topRatedMoviesFlow
+        ) { trendingMoviesResult, topRatedMoviesResult ->
+            // combine the two results into a single object
+            Pair(trendingMoviesResult, topRatedMoviesResult)
         }.onCompletion { failure ->
             handleCompletion(failure)
-        }.collect { (trendingMoviesResult, topRatedMoviesResult, genresResult) ->
+        }.collect { (trendingMoviesResult, topRatedMoviesResult) ->
             // handle the combined result
             handleTrendingMoviesResult(trendingMoviesResult)
             handleTopRatedMoviesResult(topRatedMoviesResult)
-            handleGenresResult(genresResult)
         }
     }
 
@@ -68,10 +99,6 @@ class HomeViewModel @Inject constructor(
 
     private fun handleTopRatedMoviesResult(result: Resource<MovieResponse>) {
         _topRatedMoviesState.value = result
-    }
-
-    private fun handleGenresResult(result: Resource<GenreResponse>) {
-        _genres.value = result
     }
 
     private fun handleCompletion(error: Throwable?) {

@@ -55,9 +55,9 @@ fun downloadAvatarImage(view: ImageView, url: String?) {
     view.downloadCircleImage(url)
 }
 
-@BindingAdapter("android:categoryId")
-fun getCategoryId(view: TextView, id: Int) {
-    view.changeBgBySelectedCategory(id)
+@BindingAdapter("android:isSelectedCategory")
+fun getCategoryId(view: TextView, isSelected: Boolean) {
+    view.changeBgBySelectedCategory(isSelected)
 }
 
 @BindingAdapter("android:hideIfNull")

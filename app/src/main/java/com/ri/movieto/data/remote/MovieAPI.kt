@@ -6,6 +6,7 @@ import com.ri.movieto.data.remote.dto.*
 import com.ri.movieto.data.remote.dto.movie_detail.MovieDetailDto
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MovieAPI {
 
@@ -29,5 +30,9 @@ interface MovieAPI {
 
     @GET("movie/{id}/reviews?${Constants.API_KEY_WITH_PREFIX}&language=en-US&page=1")
     suspend fun getMovieReviews(@Path("id") id: Int): ReviewResponseDto
+
+    @GET("discover/movie?${Constants.API_KEY_WITH_PREFIX}&language=en-US&include_adult=false&include_video=false&page=1")
+    suspend fun getMoviesByCategory(@Query("with_genres") category_id: Int, @Query("sort_by") sort: String ): MovieResponseDto
+
 
 }

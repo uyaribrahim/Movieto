@@ -8,11 +8,15 @@ import com.ri.movieto.R
 import com.ri.movieto.databinding.ItemCategoryBinding
 import com.ri.movieto.domain.model.GenreResponse
 
-class CategoryAdapter(private val categoryList: ArrayList<GenreResponse.Genre>) :
+class CategoryAdapter(
+    private val categoryList: ArrayList<GenreResponse.Genre>,
+    private val selectedCategoryIndex: Int,
+    private val onClick: (category: GenreResponse.Genre) -> Unit
+) :
     RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
+    private var selectedItemPosition = selectedCategoryIndex
     class CategoryViewHolder(val view: ItemCategoryBinding) : RecyclerView.ViewHolder(view.root) {
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
@@ -29,11 +33,25 @@ class CategoryAdapter(private val categoryList: ArrayList<GenreResponse.Genre>) 
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         holder.view.category = categoryList[position]
+        holder.view.isSelected = position == selectedItemPosition
+        holder.itemView.setOnClickListener { onCategoryClick(holder, categoryList[position], position) }
     }
 
-    fun updateCategoryList(newList: List<GenreResponse.Genre>){
+    fun updateCategoryList(newList: List<GenreResponse.Genre>) {
         categoryList.clear()
         categoryList.addAll(newList)
         notifyDataSetChanged()
+    }
+
+    private fun onCategoryClick(holder: CategoryViewHolder, id: GenreResponse.Genre, position: Int) {
+        if(selectedItemPosition == position){
+            return
+        }
+        onClick(id)
+        holder.view.isSelected = true
+        if (position != selectedItemPosition) {
+            notifyItemChanged(selectedItemPosition)
+            selectedItemPosition = position
+        }
     }
 }

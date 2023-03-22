@@ -29,8 +29,8 @@ fun ImageView.downloadCircleImage(url: String?) {
         .into(this)
 }
 
-fun TextView.changeBgBySelectedCategory(id: Int) {
-    if (id == 0) {
+fun TextView.changeBgBySelectedCategory(isSelected: Boolean) {
+    if (isSelected) {
         this.setBackgroundColor(ContextCompat.getColor(context, R.color.pink_panther))
     } else {
         this.setBackgroundColor(ContextCompat.getColor(context, R.color.midnight))
