@@ -19,6 +19,11 @@ class GetMoviesByGenreUseCase @Inject constructor(
         try {
             emit(Resource.Loading())
             val movieResponse = repository.getMoviesByCategory(category_id, sort).toDomain(decider)
+            // Top rated film listesi için filmleri vote_average değerine göre yeniden sıralamak gerekiyor.
+            if (sort == "vote_count.desc") {
+                val sortedMovieList = movieResponse.movies.sortedByDescending { it.vote_average }
+                movieResponse.movies = sortedMovieList
+            }
             emit(Resource.Success(movieResponse))
         } catch (e: Exception) {
             emit(Resource.Error(errorHandler.getErrorMessage(e)))
