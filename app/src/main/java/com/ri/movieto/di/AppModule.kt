@@ -1,9 +1,14 @@
 package com.ri.movieto.di
 
+import android.app.Application
+import androidx.room.Room
 import com.ri.movieto.common.Constants
+import com.ri.movieto.data.local.MovieDao
+import com.ri.movieto.data.local.MovieDatabase
 import com.ri.movieto.data.remote.MovieAPI
 import com.ri.movieto.data.repository.MovieRepositoryImpl
 import com.ri.movieto.domain.decider.MovieDecider
+import com.ri.movieto.domain.model.MovieResponse
 import com.ri.movieto.domain.repository.MovieRepository
 import com.ri.movieto.error.ErrorHandler
 import dagger.Module
@@ -30,10 +35,19 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideMovieDao(app: Application): MovieDatabase {
+        return Room.databaseBuilder(
+            app, MovieDatabase::class.java, "movie_db"
+        ).build()
+    }
+
+    @Provides
+    @Singleton
     fun provideMovieRepository(
-        api: MovieAPI
+        api: MovieAPI,
+        db: MovieDatabase
     ): MovieRepository {
-        return MovieRepositoryImpl(api)
+        return MovieRepositoryImpl(api,db.dao)
     }
 
     @Provides

@@ -19,8 +19,7 @@ class GetMovieGenresUseCase @Inject constructor(
     operator fun invoke(): Flow<Resource<GenreResponse>> = flow {
         try {
             emit(Resource.Loading())
-            val genreResponse = repository.getMovieGenres().toDomain()
-            genreResponse.genres = listOf(GenreResponse.Genre(0, "All")) + genreResponse.genres
+            val genreResponse = repository.getMovieGenres()
             emit(Resource.Success(genreResponse))
         } catch (e: Exception) {
             val error = errorHandler.getErrorMessage(e)

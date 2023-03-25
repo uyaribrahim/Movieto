@@ -76,6 +76,12 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:$dagger_version"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
 
+    //Room
+    def room_version = "2.5.1"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+
     //RxJava
     //implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
     // Because RxAndroid releases are few and far between, it is recommended you also
