@@ -12,6 +12,6 @@ interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGenreResponse(list: List<GenreEntity>)
 
-    @Query("SELECT * FROM genreentity ORDER BY name")
+    @Query("SELECT * FROM genreentity ORDER BY id = 0 DESC, name ASC")
     suspend fun getGenres(): List<GenreEntity>
 }
