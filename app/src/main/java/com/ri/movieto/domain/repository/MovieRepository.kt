@@ -9,10 +9,12 @@ interface MovieRepository {
 
     suspend fun getTrendingMovies(): MovieResponseDto
     suspend fun getTopRatedMovies(): MovieResponseDto
+    suspend fun getNowPlayingMovies(): MovieResponseDto
     suspend fun getMovieGenres(): GenreResponse
     suspend fun getMovieDetails(id: Int): MovieDetailDto
     suspend fun getMovieCredits(id: Int): CreditDto
     suspend fun getMovieRecommend(id: Int): RecommendDto
     suspend fun getMovieReviews(id: Int): ReviewResponseDto
     suspend fun getMoviesByCategory(category_id: Int, sort: String): MovieResponseDto
+    suspend fun searchMovie(query: String): MovieResponseDto
 }

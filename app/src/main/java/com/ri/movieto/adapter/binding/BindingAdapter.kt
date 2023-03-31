@@ -60,6 +60,13 @@ fun getCategoryId(view: TextView, isSelected: Boolean) {
     view.changeBgBySelectedCategory(isSelected)
 }
 
+@BindingAdapter("android:isVisible")
+fun View.isVisible(visible: Boolean) {
+    visibility = if (visible) {
+        View.VISIBLE
+    } else View.GONE
+}
+
 @BindingAdapter("android:hideIfNull")
 fun View.hideIfNull(value: String?) {
     visibility = if (value == null) {

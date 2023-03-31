@@ -16,6 +16,9 @@ interface MovieAPI {
     @GET("movie/top_rated?${Constants.API_KEY_WITH_PREFIX}&language=en-US&page=1")
     suspend fun getTopRatedMovies(): MovieResponseDto
 
+    @GET("movie/now_playing?${Constants.API_KEY_WITH_PREFIX}&language=en-US&page=1")
+    suspend fun getNowPlayingMovies(): MovieResponseDto
+
     @GET("genre/movie/list?${Constants.API_KEY_WITH_PREFIX}&language=en-US")
     suspend fun getMovieGenres(): GenreResponseDto
 
@@ -33,6 +36,9 @@ interface MovieAPI {
 
     @GET("discover/movie?${Constants.API_KEY_WITH_PREFIX}&language=en-US&include_adult=false&include_video=false&page=1")
     suspend fun getMoviesByCategory(@Query("with_genres") category_id: Int, @Query("sort_by") sort: String ): MovieResponseDto
+
+    @GET("search/movie?${Constants.API_KEY_WITH_PREFIX}&language=en-US&include_adult=false&page=1")
+    suspend fun searchMovie(@Query("query") query: String): MovieResponseDto
 
 
 }

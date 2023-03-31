@@ -19,7 +19,7 @@ data class MovieResponseDto(
         val overview: String,
         val popularity: Double,
         val poster_path: String?,
-        val release_date: String,
+        val release_date: String?,
         val title: String,
         val video: Boolean,
         val vote_average: Double,
@@ -40,7 +40,7 @@ fun MovieResponseDto.toDomain(decider: MovieDecider): MovieResponse {
                 title = movie.title,
                 id = movie.id,
                 video = movie.video,
-                release_date = movie.release_date,
+                release_date = movie.release_date ?: "",
                 overview = movie.overview,
                 genre_ids = movie.genre_ids
             )

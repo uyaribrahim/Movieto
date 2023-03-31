@@ -30,9 +30,9 @@ class MovieDecider {
         return roundOff.toString()
     }
 
-    fun provideReleaseYear(date: String): String {
-        val releaseDateArray = date.split("-")
-        return releaseDateArray[0]
+    fun provideReleaseYear(date: String?): String {
+        val releaseDateArray = date?.split("-")
+        return releaseDateArray?.get(0) ?: ""
     }
 
     fun provideMovieLabel(date: String, genres: List<Genre>): String {

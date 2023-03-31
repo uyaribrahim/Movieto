@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="movie"
+            type="com.ri.movieto.domain.model.MovieResponse.Movie" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#00FFFFFF"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="10dp"
+        app:cardUseCompatPadding="false">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:elevation="5dp"
+            android:background="@drawable/gradient_poster_from_bottom"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="10dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false"
+                android:layout_weight="0.75">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:image="@{movie.backdrop_path}"
+                    android:scaleType="centerCrop" />
+
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:orientation="vertical"
+                android:paddingStart="7dp"
+                android:paddingTop="7dp"
+                android:paddingEnd="5dp">
+
+                <TextView
+                    android:id="@+id/movie_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:maxLines="2"
+                    android:text="@{movie.title}"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/release_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="@{movie.release_year}"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <!--            <View-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:background="@drawable/gradient_bg_item_trending_movies" />-->
+
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginTop="25dp"-->
+        <!--                android:gravity="start"-->
+        <!--                android:orientation="vertical"-->
+        <!--                android:paddingHorizontal="20dp">-->
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/movie_title"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:ellipsize="end"-->
+        <!--                    android:fontFamily="@font/montserrat_bold"-->
+        <!--                    android:maxLines="1"-->
+        <!--                    android:text="@{movie.title}"-->
+        <!--                    android:textColor="@color/white"-->
+        <!--                    android:textSize="18sp" />-->
+
+        <!--                <TextView-->
+        <!--                    android:id="@+id/release_year"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:fontFamily="@font/montserrat_regular"-->
+        <!--                    android:text="@{movie.release_year}"-->
+        <!--                    android:textColor="@color/white"-->
+        <!--                    android:textSize="18sp" />-->
+
+        <!--            </LinearLayout>-->
+
+    </androidx.cardview.widget.CardView>
+</layout>

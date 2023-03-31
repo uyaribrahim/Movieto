@@ -19,6 +19,8 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun getTrendingMovies(): MovieResponseDto = api.getTrendingMovies()
     override suspend fun getTopRatedMovies(): MovieResponseDto = api.getTopRatedMovies()
+    override suspend fun getNowPlayingMovies(): MovieResponseDto = api.getNowPlayingMovies()
+
     override suspend fun getMovieGenres(): GenreResponse {
         val localMovieGenres = dao.getGenres().map { it.toGenre() }
 
@@ -38,5 +40,7 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun getMovieReviews(id: Int): ReviewResponseDto = api.getMovieReviews(id)
     override suspend fun getMoviesByCategory(category_id: Int, sort: String): MovieResponseDto =
         api.getMoviesByCategory(category_id, sort)
+
+    override suspend fun searchMovie(query: String): MovieResponseDto = api.searchMovie(query)
 
 }
