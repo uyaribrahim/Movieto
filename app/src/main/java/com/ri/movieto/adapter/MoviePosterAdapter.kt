@@ -5,24 +5,24 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ri.movieto.R
-import com.ri.movieto.databinding.ItemTopRatedBinding
+import com.ri.movieto.databinding.ItemMoviePosterBinding
 import com.ri.movieto.domain.model.MovieResponse
 
-class TopRatedAdapter(
+class MoviePosterAdapter(
     private val movieList: ArrayList<MovieResponse.Movie>,
     private val onClick: (movieId: Int) -> Unit
 ) :
-    RecyclerView.Adapter<TopRatedAdapter.MovieViewHolder>() {
+    RecyclerView.Adapter<MoviePosterAdapter.MovieViewHolder>() {
 
-    class MovieViewHolder(val view: ItemTopRatedBinding) : RecyclerView.ViewHolder(view.root) {
+    class MovieViewHolder(val view: ItemMoviePosterBinding) : RecyclerView.ViewHolder(view.root) {
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = DataBindingUtil.inflate<ItemTopRatedBinding>(
+        val view = DataBindingUtil.inflate<ItemMoviePosterBinding>(
             inflater,
-            R.layout.item_top_rated,
+            R.layout.item_movie_poster,
             parent,
             false
         )

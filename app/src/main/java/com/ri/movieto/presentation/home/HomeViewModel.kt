@@ -107,7 +107,6 @@ class HomeViewModel @Inject constructor(
                 HomeFragmentViewState(
                     trendingMoviesState.value.data,
                     topRatedMoviesState.value.data,
-                    genres.value.data
                 )
             )
         } else {

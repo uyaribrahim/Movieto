@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -16,7 +15,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.ri.movieto.adapter.CategoryAdapter
-import com.ri.movieto.adapter.TopRatedAdapter
+import com.ri.movieto.adapter.MoviePosterAdapter
 import com.ri.movieto.adapter.TrendingMoviesAdapter
 import com.ri.movieto.databinding.FragmentHomeBinding
 import com.ri.movieto.domain.model.GenreResponse
@@ -32,7 +31,7 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var trendingMoviesAdapter: TrendingMoviesAdapter
     private lateinit var categoryAdapter: CategoryAdapter
-    private lateinit var topRatedAdapter: TopRatedAdapter
+    private lateinit var moviePosterAdapter: MoviePosterAdapter
     private lateinit var rvTrendingMovies: RecyclerView
     private lateinit var rvTopRatedMovies: RecyclerView
     private lateinit var rvCategory: RecyclerView
@@ -57,7 +56,7 @@ class HomeFragment : Fragment() {
             view?.findNavController()?.navigate(action)
         }
 
-        topRatedAdapter = TopRatedAdapter(arrayListOf()) { id ->
+        moviePosterAdapter = MoviePosterAdapter(arrayListOf()) { id ->
             val action = HomeFragmentDirections.actionNavigationHomeToNavigationDetail(id)
             view?.findNavController()?.navigate(action)
         }
@@ -74,7 +73,7 @@ class HomeFragment : Fragment() {
 
 
         rvTrendingMovies.adapter = trendingMoviesAdapter
-        rvTopRatedMovies.adapter = topRatedAdapter
+        rvTopRatedMovies.adapter = moviePosterAdapter
         rvCategory.adapter = categoryAdapter
 
         contentLayout = binding.contentLayout
@@ -83,7 +82,7 @@ class HomeFragment : Fragment() {
         binding.viewModel = homeViewModel
 
         observeHomeViewModelState(
-            trendingMoviesAdapter, topRatedAdapter, categoryAdapter
+            trendingMoviesAdapter, moviePosterAdapter, categoryAdapter
         )
 
         return binding.root
@@ -91,7 +90,7 @@ class HomeFragment : Fragment() {
 
     private fun observeHomeViewModelState(
         trendingMoviesAdapter: TrendingMoviesAdapter,
-        topRatedAdapter: TopRatedAdapter,
+        moviePosterAdapter: MoviePosterAdapter,
         categoryAdapter: CategoryAdapter
     ) {
         lifecycleScope.launch {
@@ -102,7 +101,7 @@ class HomeFragment : Fragment() {
                     }
                     state.data?.getTopRatedMovies().let {
                         Log.e("++++", it.toString())
-                        updateTopRatedMovies(it, topRatedAdapter)
+                        updateTopRatedMovies(it, moviePosterAdapter)
                     }
                 }
             }
@@ -127,9 +126,9 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun updateTopRatedMovies(state: MovieResponse?, topRatedAdapter: TopRatedAdapter) {
+    private fun updateTopRatedMovies(state: MovieResponse?, moviePosterAdapter: MoviePosterAdapter) {
         if (state != null) {
-            topRatedAdapter.updateMovieList(state.movies)
+            moviePosterAdapter.updateMovieList(state.movies)
             rvTopRatedMovies.scrollToPosition(0)
         }
     }
