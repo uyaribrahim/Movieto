@@ -1,13 +1,13 @@
 package com.ri.movieto.presentation.mapper
 
 import android.icu.text.SimpleDateFormat
+import com.ri.movieto.domain.decider.MovieDecider
 import com.ri.movieto.domain.model.ReviewResponse
 import com.ri.movieto.presentation.state.ReviewUIItem
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 fun ReviewResponse.Review.toReviewUIItem(): ReviewUIItem {
+    val decider = MovieDecider()
 
     val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
     val dateTime = formatter.parse(created_at)
@@ -23,6 +23,8 @@ fun ReviewResponse.Review.toReviewUIItem(): ReviewUIItem {
     val createdAtText = "$writtenBy on $createdDate"
     val reviewTitle = "A review from ${author_details.username}"
 
+    val avatarPath = decider.provideAvatarPath(author_details.avatar_path)
+
 
     return ReviewUIItem(
         id = id,
@@ -30,6 +32,6 @@ fun ReviewResponse.Review.toReviewUIItem(): ReviewUIItem {
         rating = author_details.rating?.toString(),
         content = content,
         created_at = createdAtText,
-        avatar_path = author_details.avatar_path
+        avatar_path = avatarPath
     )
 }

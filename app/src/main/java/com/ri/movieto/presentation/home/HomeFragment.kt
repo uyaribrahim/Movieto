@@ -19,7 +19,7 @@ import com.ri.movieto.adapter.MoviePosterAdapter
 import com.ri.movieto.adapter.TrendingMoviesAdapter
 import com.ri.movieto.databinding.FragmentHomeBinding
 import com.ri.movieto.domain.model.GenreResponse
-import com.ri.movieto.domain.model.MovieResponse
+import com.ri.movieto.presentation.state.MovieUIItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -118,17 +118,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateTrendingMovies(
-        state: MovieResponse?, trendingMoviesAdapter: TrendingMoviesAdapter
+        state: List<MovieUIItem>?, trendingMoviesAdapter: TrendingMoviesAdapter
     ) {
         if (state != null) {
-            trendingMoviesAdapter.updateMovieList(state.movies)
+            trendingMoviesAdapter.updateMovieList(state)
             rvTrendingMovies.scrollToPosition(0)
         }
     }
 
-    private fun updateTopRatedMovies(state: MovieResponse?, moviePosterAdapter: MoviePosterAdapter) {
+    private fun updateTopRatedMovies(state: List<MovieUIItem>?, moviePosterAdapter: MoviePosterAdapter) {
         if (state != null) {
-            moviePosterAdapter.updateMovieList(state.movies)
+            moviePosterAdapter.updateMovieList(state)
             rvTopRatedMovies.scrollToPosition(0)
         }
     }

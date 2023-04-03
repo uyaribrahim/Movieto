@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.ri.movieto.databinding.ItemMovieSearchBinding
-import com.ri.movieto.domain.model.MovieResponse
 import com.ri.movieto.R
+import com.ri.movieto.databinding.ItemMovieSearchBinding
+import com.ri.movieto.presentation.state.MovieUIItem
 
-class SearchAdapter(private val movieList: ArrayList<MovieResponse.Movie>) :
+class SearchAdapter(private val movieList: ArrayList<MovieUIItem>) :
     RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
     class SearchViewHolder(val view: ItemMovieSearchBinding) : RecyclerView.ViewHolder(view.root) {
@@ -34,7 +34,7 @@ class SearchAdapter(private val movieList: ArrayList<MovieResponse.Movie>) :
         holder.view.movie = movieList[position]
     }
 
-    fun updateMovieList(newMovieList: List<MovieResponse.Movie>) {
+    fun updateMovieList(newMovieList: List<MovieUIItem>) {
         movieList.clear()
         movieList.addAll(newMovieList)
         notifyDataSetChanged()

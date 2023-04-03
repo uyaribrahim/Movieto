@@ -1,22 +1,18 @@
 package com.ri.movieto.presentation.search
 
 import android.util.Log
-import androidx.databinding.Bindable
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ri.movieto.common.Resource
-import com.ri.movieto.domain.model.GenreResponse
-import com.ri.movieto.domain.model.MovieResponse
-import com.ri.movieto.domain.use_case.get_movie_genres.GetMovieGenresUseCase
 import com.ri.movieto.domain.use_case.get_now_playing_movies.GetNowPlayingUseCase
 import com.ri.movieto.domain.use_case.search_movie.SearchMovieUseCase
+import com.ri.movieto.presentation.mapper.toMovieUIItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -55,7 +51,7 @@ class SearchViewModel @Inject constructor(
             searchMovieUseCase(query).collect { result ->
                 when (result) {
                     is Resource.Success -> {
-                        _state.value = SearchFragmentViewState(data = result.data)
+                        _state.value = SearchFragmentViewState(data = result.data?.movies?.map { it.toMovieUIItem() } ?: emptyList())
                         Log.e("Search Movie Data: ", result.data?.movies.toString())
                     }
                     is Resource.Loading -> {
@@ -77,7 +73,7 @@ class SearchViewModel @Inject constructor(
             getNowPlayingUseCase.invoke().collect { result ->
                 when (result) {
                     is Resource.Success -> {
-                        _nowPlaying.value = SearchFragmentViewState(data = result.data)
+                        _nowPlaying.value = SearchFragmentViewState(data = result.data?.movies?.map { it.toMovieUIItem() } ?: emptyList())
                         Log.e("Now Playing Movie Data: ", result.data?.movies.toString())
                     }
                     is Resource.Loading -> {

@@ -20,7 +20,7 @@ class SearchMovieUseCase @Inject constructor(
 
         try {
             emit(Resource.Loading())
-            val movieResponse = repository.searchMovie(query).toDomain(decider)
+            val movieResponse = repository.searchMovie(query).toDomain()
             emit(Resource.Success(movieResponse))
 
         } catch (e: Exception) {

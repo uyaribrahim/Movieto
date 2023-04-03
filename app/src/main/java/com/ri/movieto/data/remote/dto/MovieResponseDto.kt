@@ -1,6 +1,5 @@
 package com.ri.movieto.data.remote.dto
 
-import com.ri.movieto.domain.decider.MovieDecider
 import com.ri.movieto.domain.model.MovieResponse
 
 data class MovieResponseDto(
@@ -27,16 +26,15 @@ data class MovieResponseDto(
     )
 }
 
-fun MovieResponseDto.toDomain(decider: MovieDecider): MovieResponse {
+fun MovieResponseDto.toDomain(): MovieResponse {
 
     return MovieResponse(
         page = page,
         movies = results.map { movie ->
             MovieResponse.Movie(
-                release_year = decider.provideReleaseYear(movie.release_date),
-                poster_path = decider.providePosterPath(movie.poster_path),
-                backdrop_path = decider.provideBackdropPath(movie.backdrop_path),
-                vote_average = decider.provideRoundedAverage(movie.vote_average),
+                poster_path = movie.poster_path ?: "",
+                backdrop_path = movie.backdrop_path ?: "",
+                vote_average = movie.vote_average,
                 title = movie.title,
                 id = movie.id,
                 video = movie.video,

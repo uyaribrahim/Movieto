@@ -1,6 +1,5 @@
 package com.ri.movieto.presentation.search
 
-import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
@@ -9,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -81,7 +79,6 @@ class SearchFragment : Fragment() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 searchViewModel.onSearch(p0.toString())
-                Log.e("½½½½½", p0.toString())
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -103,9 +100,7 @@ class SearchFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 searchViewModel.state.collectLatest { state ->
                     state.data.let {
-                        if (it != null) {
-                            searchAdapter.updateMovieList(it.movies)
-                        }
+                        searchAdapter.updateMovieList(it)
                     }
                 }
             }
@@ -114,9 +109,7 @@ class SearchFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 searchViewModel.nowPlaying.collectLatest { state ->
                     state.data.let {
-                        if (it != null) {
-                            moviePosterAdapter.updateMovieList(it.movies)
-                        }
+                        moviePosterAdapter.updateMovieList(it)
                     }
                 }
             }

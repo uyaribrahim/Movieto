@@ -1,6 +1,5 @@
 package com.ri.movieto.domain.use_case.get_movide_detail
 
-import android.util.Log
 import com.ri.movieto.common.Resource
 import com.ri.movieto.data.remote.dto.movie_detail.toDomain
 import com.ri.movieto.domain.decider.MovieDecider
@@ -9,8 +8,6 @@ import com.ri.movieto.domain.repository.MovieRepository
 import com.ri.movieto.error.ErrorHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
-import java.io.IOException
 import javax.inject.Inject
 
 class GetMovieDetailUseCase @Inject constructor(

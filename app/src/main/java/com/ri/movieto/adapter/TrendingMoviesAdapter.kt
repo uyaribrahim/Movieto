@@ -7,10 +7,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ri.movieto.R
 import com.ri.movieto.databinding.ItemTrendingMoviesBinding
-import com.ri.movieto.domain.model.MovieResponse
+import com.ri.movieto.presentation.state.MovieUIItem
 
 class TrendingMoviesAdapter(
-    private val movieList: ArrayList<MovieResponse.Movie>,
+    private val movieList: ArrayList<MovieUIItem>,
     private val onClick: (movieId: Int) -> Unit
 ) :
     RecyclerView.Adapter<TrendingMoviesAdapter.MovieViewHolder>() {
@@ -42,7 +42,7 @@ class TrendingMoviesAdapter(
         }
     }
 
-    fun updateMovieList(newMovieList: List<MovieResponse.Movie>) {
+    fun updateMovieList(newMovieList: List<MovieUIItem>) {
         movieList.clear()
         movieList.addAll(newMovieList)
         notifyDataSetChanged()

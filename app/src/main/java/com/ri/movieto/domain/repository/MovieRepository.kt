@@ -1,9 +1,11 @@
 package com.ri.movieto.domain.repository
 
-import com.ri.movieto.data.remote.dto.*
+import com.ri.movieto.data.remote.dto.CreditDto
+import com.ri.movieto.data.remote.dto.MovieResponseDto
+import com.ri.movieto.data.remote.dto.RecommendDto
+import com.ri.movieto.data.remote.dto.ReviewResponseDto
 import com.ri.movieto.data.remote.dto.movie_detail.MovieDetailDto
 import com.ri.movieto.domain.model.GenreResponse
-import java.util.*
 
 interface MovieRepository {
 

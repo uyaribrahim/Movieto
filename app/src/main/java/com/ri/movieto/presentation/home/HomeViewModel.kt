@@ -1,6 +1,5 @@
 package com.ri.movieto.presentation.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +11,8 @@ import com.ri.movieto.domain.use_case.get_movie_genres.GetMovieGenresUseCase
 import com.ri.movieto.domain.use_case.get_movies_by_genre.GetMoviesByGenreUseCase
 import com.ri.movieto.domain.use_case.get_top_rated_movies.GetTopRatedMoviesUseCase
 import com.ri.movieto.domain.use_case.get_trending_movies.GetTrendingMoviesUseCase
+import com.ri.movieto.presentation.mapper.toMovieUIItem
+import com.ri.movieto.presentation.state.MovieUIItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -25,10 +26,10 @@ class HomeViewModel @Inject constructor(
     private val getMoviesByGenreUseCase: GetMoviesByGenreUseCase
 ) : ViewModel() {
 
-    private val _trendingMoviesState = MutableStateFlow<Resource<MovieResponse>>(Resource.Loading())
+    private val _trendingMoviesState = MutableStateFlow<Resource<List<MovieUIItem>>>(Resource.Loading())
     val trendingMoviesState = _trendingMoviesState.asStateFlow()
 
-    private val _topRatedMoviesState = MutableStateFlow<Resource<MovieResponse>>(Resource.Loading())
+    private val _topRatedMoviesState = MutableStateFlow<Resource<List<MovieUIItem>>>(Resource.Loading())
     val topRatedMoviesState = _topRatedMoviesState.asStateFlow()
 
     private val _genres = MutableStateFlow<Resource<GenreResponse>>(Resource.Loading())
@@ -94,11 +95,37 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun handleTrendingMoviesResult(result: Resource<MovieResponse>) {
-        _trendingMoviesState.value = result
+        when (result) {
+            is Resource.Success -> {
+                _trendingMoviesState.value =
+                    Resource.Success(result.data?.movies?.map { it.toMovieUIItem() } ?: emptyList() )
+            }
+            is Resource.Error -> {
+                _trendingMoviesState.value =
+                    Resource.Error(result.message ?: "Bilinmeyen bir hata oluştu")
+            }
+            is Resource.Loading -> {
+                _trendingMoviesState.value =
+                    Resource.Loading()
+            }
+        }
     }
 
     private fun handleTopRatedMoviesResult(result: Resource<MovieResponse>) {
-        _topRatedMoviesState.value = result
+        when (result) {
+            is Resource.Success -> {
+                _topRatedMoviesState.value =
+                    Resource.Success(result.data?.movies?.map { it.toMovieUIItem() } ?: emptyList() )
+            }
+            is Resource.Error -> {
+                _topRatedMoviesState.value =
+                    Resource.Error(result.message ?: "Bilinmeyen bir hata oluştu")
+            }
+            is Resource.Loading -> {
+                _topRatedMoviesState.value =
+                    Resource.Loading()
+            }
+        }
     }
 
     private fun handleCompletion(error: Throwable?) {

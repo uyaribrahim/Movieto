@@ -6,7 +6,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ri.movieto.R
 import com.ri.movieto.databinding.ItemReviewBinding
-import com.ri.movieto.domain.model.ReviewResponse
 import com.ri.movieto.presentation.state.ReviewUIItem
 
 class ReviewAdapter(private val reviews: ArrayList<ReviewUIItem>) :

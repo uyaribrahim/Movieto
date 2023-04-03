@@ -20,7 +20,7 @@ class GetNowPlayingUseCase @Inject constructor(
 
         try {
             emit(Resource.Loading())
-            val movieResponse = repository.getNowPlayingMovies().toDomain(decider)
+            val movieResponse = repository.getNowPlayingMovies().toDomain()
             emit(Resource.Success(movieResponse))
         } catch (e: Exception) {
             val error = errorHandler.getErrorMessage(e)

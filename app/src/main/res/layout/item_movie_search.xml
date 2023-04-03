@@ -6,7 +6,7 @@
 
         <variable
             name="movie"
-            type="com.ri.movieto.domain.model.MovieResponse.Movie" />
+            type="com.ri.movieto.presentation.state.MovieUIItem" />
     </data>
 
     <androidx.cardview.widget.CardView

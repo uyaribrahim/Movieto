@@ -8,8 +8,6 @@ import com.ri.movieto.domain.repository.MovieRepository
 import com.ri.movieto.error.ErrorHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
-import java.io.IOException
 import javax.inject.Inject
 
 class GetMovieCreditsUseCase @Inject constructor(

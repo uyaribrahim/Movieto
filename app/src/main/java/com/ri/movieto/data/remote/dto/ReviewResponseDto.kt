@@ -1,7 +1,5 @@
 package com.ri.movieto.data.remote.dto
 
-import com.ri.movieto.common.Constants
-import com.ri.movieto.domain.decider.MovieDecider
 import com.ri.movieto.domain.model.ReviewResponse
 
 data class ReviewResponseDto(
@@ -29,7 +27,7 @@ data class ReviewResponseDto(
     }
 }
 
-fun ReviewResponseDto.toDomain(decider: MovieDecider): ReviewResponse {
+fun ReviewResponseDto.toDomain(): ReviewResponse {
     return ReviewResponse(
         id = id,
         results = results.map { review ->
@@ -37,7 +35,7 @@ fun ReviewResponseDto.toDomain(decider: MovieDecider): ReviewResponse {
                 author = review.author,
                 id = review.id,
                 author_details = ReviewResponse.Review.AuthorDetails(
-                    decider.provideAvatarPath(review.author_details.avatar_path),
+                    review.author_details.avatar_path ?: "",
                     review.author_details.name,
                     review.author_details.rating,
                     review.author_details.username

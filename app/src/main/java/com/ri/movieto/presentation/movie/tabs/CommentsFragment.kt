@@ -1,7 +1,6 @@
 package com.ri.movieto.presentation.movie.tabs
 
 import android.os.Bundle
-import android.util.LayoutDirection
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.ri.movieto.R
 import com.ri.movieto.adapter.ReviewAdapter
 import com.ri.movieto.databinding.FragmentCommentsBinding
 import com.ri.movieto.presentation.movie.MovieViewModel

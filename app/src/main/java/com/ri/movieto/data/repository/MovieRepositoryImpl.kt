@@ -1,6 +1,5 @@
 package com.ri.movieto.data.repository
 
-import android.util.Log
 import com.ri.movieto.data.local.MovieDao
 import com.ri.movieto.data.local.entity.toGenre
 import com.ri.movieto.data.local.entity.toGenreEntity
@@ -9,7 +8,6 @@ import com.ri.movieto.data.remote.dto.*
 import com.ri.movieto.data.remote.dto.movie_detail.MovieDetailDto
 import com.ri.movieto.domain.model.GenreResponse
 import com.ri.movieto.domain.repository.MovieRepository
-import java.util.Date
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(

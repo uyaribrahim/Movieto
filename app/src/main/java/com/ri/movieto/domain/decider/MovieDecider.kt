@@ -1,6 +1,5 @@
 package com.ri.movieto.domain.decider
 
-import android.util.Log
 import com.ri.movieto.common.Constants
 import com.ri.movieto.data.remote.dto.VideoResponseDto
 import com.ri.movieto.data.remote.dto.movie_detail.Genre
@@ -13,8 +12,8 @@ class MovieDecider {
 
     fun provideProfilePath(path: String?): String = "${Constants.PROFILE_PATH}$path"
 
-    fun provideAvatarPath(path: String?): String {
-        if (path == null) {
+    fun provideAvatarPath(path: String): String {
+        if (path.isEmpty()) {
             return "https://www.gravatar.com/avatar/47050d66157a1b562e149d585315e5de.jpg?s=150"
         }
         return if (path.contains("gravatar")) {

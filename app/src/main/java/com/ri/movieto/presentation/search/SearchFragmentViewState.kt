@@ -1,14 +1,10 @@
 package com.ri.movieto.presentation.search
 
-import com.ri.movieto.domain.model.MovieResponse
+import com.ri.movieto.presentation.state.MovieUIItem
 
 data class SearchFragmentViewState (
-     val data: MovieResponse? = null,
-     val isLoading: Boolean = false,
-     val error: String = ""
+    val data: List<MovieUIItem> = emptyList(),
+    val isLoading: Boolean = false,
+    val error: String? = null
 ){
-    fun getMovies(): MovieResponse? = data
-
-    fun getNowPlayingMoviesTitle() = "Now Playing"
-
 }

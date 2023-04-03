@@ -1,6 +1,5 @@
 package com.ri.movieto.data.remote
 
-import com.ri.movieto.BuildConfig
 import com.ri.movieto.common.Constants
 import com.ri.movieto.data.remote.dto.*
 import com.ri.movieto.data.remote.dto.movie_detail.MovieDetailDto
