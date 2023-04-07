@@ -26,10 +26,12 @@ class HomeViewModel @Inject constructor(
     private val getMoviesByGenreUseCase: GetMoviesByGenreUseCase
 ) : ViewModel() {
 
-    private val _trendingMoviesState = MutableStateFlow<Resource<List<MovieUIItem>>>(Resource.Loading())
+    private val _trendingMoviesState =
+        MutableStateFlow<Resource<List<MovieUIItem>>>(Resource.Loading())
     val trendingMoviesState = _trendingMoviesState.asStateFlow()
 
-    private val _topRatedMoviesState = MutableStateFlow<Resource<List<MovieUIItem>>>(Resource.Loading())
+    private val _topRatedMoviesState =
+        MutableStateFlow<Resource<List<MovieUIItem>>>(Resource.Loading())
     val topRatedMoviesState = _topRatedMoviesState.asStateFlow()
 
     private val _genres = MutableStateFlow<Resource<GenreResponse>>(Resource.Loading())
@@ -54,7 +56,7 @@ class HomeViewModel @Inject constructor(
 
     fun onSelectCategory(category: GenreResponse.Genre) {
         _selectedCategoryIndex.value = genres.value.data?.genres?.indexOf(category) ?: 0
-        if(category.id == 0){
+        if (category.id == 0) {
             getData()
             return
         }
@@ -66,13 +68,13 @@ class HomeViewModel @Inject constructor(
         val trendingMoviesFlow = getTrendingMoviesUseCase()
         val topRatedMoviesFlow = getTopRatedMoviesUseCase()
 
-        combineFlow(trendingMoviesFlow,topRatedMoviesFlow)
+        combineFlow(trendingMoviesFlow, topRatedMoviesFlow)
     }
 
     private fun filterByCategory(category_id: Int) = viewModelScope.launch {
         val trendingMoviesFlow = getMoviesByGenreUseCase(category_id, "popularity.desc")
         val topRatedMoviesFlow = getMoviesByGenreUseCase(category_id, "vote_count.desc")
-        combineFlow(trendingMoviesFlow,topRatedMoviesFlow)
+        combineFlow(trendingMoviesFlow, topRatedMoviesFlow)
     }
 
     private fun combineFlow(
@@ -98,7 +100,7 @@ class HomeViewModel @Inject constructor(
         when (result) {
             is Resource.Success -> {
                 _trendingMoviesState.value =
-                    Resource.Success(result.data?.movies?.map { it.toMovieUIItem() } ?: emptyList() )
+                    Resource.Success(result.data?.movies?.map { it.toMovieUIItem() } ?: emptyList())
             }
             is Resource.Error -> {
                 _trendingMoviesState.value =
@@ -115,7 +117,7 @@ class HomeViewModel @Inject constructor(
         when (result) {
             is Resource.Success -> {
                 _topRatedMoviesState.value =
-                    Resource.Success(result.data?.movies?.map { it.toMovieUIItem() } ?: emptyList() )
+                    Resource.Success(result.data?.movies?.map { it.toMovieUIItem() } ?: emptyList())
             }
             is Resource.Error -> {
                 _topRatedMoviesState.value =

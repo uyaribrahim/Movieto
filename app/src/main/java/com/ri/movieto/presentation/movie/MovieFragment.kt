@@ -27,7 +27,7 @@ class MovieFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var movieViewModel: MovieViewModel
     private lateinit var viewPagerAdapter: ViewPagerAdapter
-    private lateinit var youtubePlayer: YouTubePlayerView
+    private lateinit var youtubePlayerView: YouTubePlayerView
     private val args: MovieFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,9 +44,9 @@ class MovieFragment : Fragment() {
         binding.apply {
             viewModel = movieViewModel
             lifecycleOwner = viewLifecycleOwner
-            youtubePlayer = youtubePlayerView
+            this@MovieFragment.youtubePlayerView = youtubePlayerView
         }
-        lifecycle.addObserver(youtubePlayer)
+        lifecycle.addObserver(youtubePlayerView)
 
         val backButton = binding.backButton
         val tabLayout = binding.tabLayout
@@ -100,10 +100,10 @@ class MovieFragment : Fragment() {
     }
 
     private fun playerListener(video_key: String?): Boolean {
-        return youtubePlayer.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-            override fun onReady(@NonNull player: YouTubePlayer) {
+        return youtubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
                 if (video_key != null) {
-                    player.cueVideo(video_key, 0f)
+                    youTubePlayer.cueVideo(video_key, 0f)
                 }
             }
 

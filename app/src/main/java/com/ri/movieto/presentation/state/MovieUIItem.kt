@@ -6,5 +6,6 @@ data class MovieUIItem(
     val vote_average: String,
     val backdrop_path: String,
     val poster_path: String,
-    val release_year: String
-)
+    val release_date: String,
+    val release_year: String,
+    )

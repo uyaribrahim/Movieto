@@ -10,6 +10,7 @@ import com.ri.movieto.domain.use_case.get_movie_credits.GetMovieCreditsUseCase
 import com.ri.movieto.domain.use_case.get_movie_recommendations.GetMovieRecommendedUseCase
 import com.ri.movieto.domain.use_case.get_movie_reviews.GetMovieReviewsUseCase
 import com.ri.movieto.presentation.mapper.toReviewUIItem
+import com.ri.movieto.presentation.state.MovieDetailUI
 import com.ri.movieto.presentation.state.ReviewUIItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,8 +27,8 @@ class MovieViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    private var _movieDetail = MutableLiveData<MovieDetail>()
-    val movieDetail: LiveData<MovieDetail> get() = _movieDetail
+    private var _movieDetail = MutableLiveData<MovieDetailUI>()
+    val movieDetail: LiveData<MovieDetailUI> get() = _movieDetail
     private var movieID: Int = 0
 
     private var _castState = MutableStateFlow<Resource<Credit>>(Resource.Loading())
@@ -40,7 +41,7 @@ class MovieViewModel @Inject constructor(
     val reviewState = _reviewState.asStateFlow()
 
     init {
-        _movieDetail.value = savedStateHandle.get<MovieDetail>("movie_detail")
+        _movieDetail.value = savedStateHandle.get<MovieDetailUI>("movie_detail")
         movieID = movieDetail.value?.id ?: 0
     }
 

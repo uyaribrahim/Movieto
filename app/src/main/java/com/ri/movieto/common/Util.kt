@@ -36,3 +36,21 @@ fun TextView.changeBgBySelectedCategory(isSelected: Boolean) {
         this.setBackgroundColor(ContextCompat.getColor(context, R.color.midnight))
     }
 }
+
+fun ImageView.changeFavIconDrawable(isSelected: Boolean) {
+    if (isSelected) {
+        this.setImageDrawable(
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.ic_heart_fill
+            )
+        )
+    } else {
+        this.setImageDrawable(
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.ic_heart
+            )
+        )
+    }
+}

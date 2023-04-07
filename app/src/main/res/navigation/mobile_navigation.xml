@@ -62,7 +62,7 @@
 
         <argument
             android:name="movie_detail"
-            app:argType="com.ri.movieto.domain.model.MovieDetail" />
+            app:argType="com.ri.movieto.presentation.state.MovieDetailUI" />
 
     </fragment>
 </navigation>

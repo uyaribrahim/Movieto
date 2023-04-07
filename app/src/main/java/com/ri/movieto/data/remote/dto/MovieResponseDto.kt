@@ -1,6 +1,10 @@
 package com.ri.movieto.data.remote.dto
 
+import android.util.Log
+import com.ri.movieto.common.Constants
 import com.ri.movieto.domain.model.MovieResponse
+import java.text.SimpleDateFormat
+import java.util.*
 
 data class MovieResponseDto(
     val page: Int,
@@ -27,20 +31,21 @@ data class MovieResponseDto(
 }
 
 fun MovieResponseDto.toDomain(): MovieResponse {
+    val inputSDF = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
     return MovieResponse(
         page = page,
         movies = results.map { movie ->
+            val date = movie.release_date?.let { inputSDF.parse(it) }
+            val milliseconds = date?.time ?: 0
+            Log.e("DATE: ", milliseconds.toString())
             MovieResponse.Movie(
-                poster_path = movie.poster_path ?: "",
-                backdrop_path = movie.backdrop_path ?: "",
+                poster_path = "${Constants.POSTER_PATH}${movie.poster_path}",
+                backdrop_path = "${Constants.BACKDROP_PATH}${movie.backdrop_path}",
                 vote_average = movie.vote_average,
                 title = movie.title,
                 id = movie.id,
-                video = movie.video,
-                release_date = movie.release_date ?: "",
-                overview = movie.overview,
-                genre_ids = movie.genre_ids
+                release_date = milliseconds,
             )
         },
         total_pages = total_pages,

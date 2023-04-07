@@ -7,9 +7,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.ri.movieto.common.Resource
-import com.ri.movieto.util.changeBgBySelectedCategory
-import com.ri.movieto.util.downloadCircleImage
-import com.ri.movieto.util.downloadFromUrl
+import com.ri.movieto.util.*
 
 @BindingAdapter("android:hideOnLoading")
 fun ViewGroup.hideOnLoading(state: Resource<*>) {
@@ -71,4 +69,9 @@ fun View.hideIfNull(value: String?) {
     visibility = if (value == null) {
         View.GONE
     } else View.VISIBLE
+}
+
+@BindingAdapter("android:isFavMovie")
+fun getFavMovie(view: ImageView, isSelected: Boolean) {
+    view.changeFavIconDrawable(isSelected)
 }

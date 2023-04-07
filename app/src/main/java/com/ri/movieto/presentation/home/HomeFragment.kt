@@ -100,7 +100,6 @@ class HomeFragment : Fragment() {
                         updateTrendingMovies(it, trendingMoviesAdapter)
                     }
                     state.data?.getTopRatedMovies().let {
-                        Log.e("++++", it.toString())
                         updateTopRatedMovies(it, moviePosterAdapter)
                     }
                 }

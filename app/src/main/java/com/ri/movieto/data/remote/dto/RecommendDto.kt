@@ -18,7 +18,7 @@ fun RecommendDto.toDomain(decider: MovieDecider): Recommend {
                     id = movie.id,
                     title = movie.title,
                     backdrop_path = decider.provideBackdropPath(movie.backdrop_path),
-                    release_date = decider.provideReleaseYear(movie.release_date)
+                    release_date = "2022"
                 )
             }
     )

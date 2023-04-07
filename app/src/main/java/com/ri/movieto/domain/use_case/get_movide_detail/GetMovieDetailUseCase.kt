@@ -12,13 +12,12 @@ import javax.inject.Inject
 
 class GetMovieDetailUseCase @Inject constructor(
     private val repository: MovieRepository,
-    private val decider: MovieDecider,
     private val errorHandler: ErrorHandler
 ) {
     operator fun invoke(id: Int): Flow<Resource<MovieDetail>> = flow {
         try {
             emit(Resource.Loading())
-            val movieDetail = repository.getMovieDetails(id).toDomain(decider)
+            val movieDetail = repository.getMovieDetails(id).toDomain()
             emit(Resource.Success(movieDetail))
         } catch (e: Exception) {
             val error = errorHandler.getErrorMessage(e)

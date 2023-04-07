@@ -1,18 +1,20 @@
 package com.ri.movieto.data.repository
 
 import com.ri.movieto.data.local.MovieDao
+import com.ri.movieto.data.local.entity.toFavMovieEntity
 import com.ri.movieto.data.local.entity.toGenre
 import com.ri.movieto.data.local.entity.toGenreEntity
+import com.ri.movieto.data.local.entity.toMovie
 import com.ri.movieto.data.remote.MovieAPI
 import com.ri.movieto.data.remote.dto.*
 import com.ri.movieto.data.remote.dto.movie_detail.MovieDetailDto
 import com.ri.movieto.domain.model.GenreResponse
+import com.ri.movieto.domain.model.MovieResponse
 import com.ri.movieto.domain.repository.MovieRepository
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
-    private val api: MovieAPI,
-    private val dao: MovieDao
+    private val api: MovieAPI, private val dao: MovieDao
 ) : MovieRepository {
 
     override suspend fun getTrendingMovies(): MovieResponseDto = api.getTrendingMovies()
@@ -40,5 +42,14 @@ class MovieRepositoryImpl @Inject constructor(
         api.getMoviesByCategory(category_id, sort)
 
     override suspend fun searchMovie(query: String): MovieResponseDto = api.searchMovie(query)
+    override suspend fun addFavMovie(movie: MovieResponse.Movie) =
+        dao.insertFavMovie(movie.toFavMovieEntity())
+
+    override suspend fun getFavMovies(): List<MovieResponse.Movie> =
+        dao.getFavMovies().map { it.toMovie() }
+
+    override suspend fun isFavMovieExist(id: Int): Boolean = dao.isFavMovieExist(id)
+    override suspend fun deleteFavMovie(movie: MovieResponse.Movie) =
+        dao.deleteFavMovie(movie.toFavMovieEntity())
 
 }

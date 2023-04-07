@@ -16,7 +16,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.ri.movieto.databinding.FragmentDetailBinding
-import com.ri.movieto.domain.model.MovieDetail
+import com.ri.movieto.presentation.state.MovieDetailUI
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -28,8 +28,8 @@ class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var detailViewModel: DetailViewModel
-    private lateinit var youtubePlayer: YouTubePlayerView
-    private lateinit var movieDetail: MovieDetail
+    private lateinit var youtubePlayerView: YouTubePlayerView
+    private lateinit var movieDetail: MovieDetailUI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,11 +43,17 @@ class DetailFragment : Fragment() {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         val backButton = binding.backButton
         val playNow = binding.playNow
+        val btnFav = binding.btnFav
+
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = detailViewModel
-        youtubePlayer = binding.youtubePlayerView
+        youtubePlayerView = binding.youtubePlayerView
 
-        lifecycle.addObserver(youtubePlayer)
+        btnFav.setOnClickListener {
+            detailViewModel.onClickFavButton()
+        }
+
+        lifecycle.addObserver(youtubePlayerView)
 
         backButton.setOnClickListener {
             findNavController().navigateUp()
@@ -79,16 +85,15 @@ class DetailFragment : Fragment() {
     }
 
     private fun playerListener(video_key: String?): Boolean {
-        return youtubePlayer.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-            override fun onReady(@NonNull player: YouTubePlayer) {
+        return youtubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
                 if (video_key != null) {
-                    player.cueVideo(video_key, 0f)
+                    youTubePlayer.cueVideo(video_key, 0f)
                 }
             }
 
         })
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

@@ -37,9 +37,11 @@
                 android:src="@drawable/left_arrow" />
 
             <ImageView
+                android:id="@+id/btnFav"
                 android:layout_width="29dp"
                 android:layout_height="26dp"
                 android:layout_gravity="end"
+                android:isFavMovie="@{viewModel.isExistFavMovie()}"
                 android:src="@drawable/ic_heart" />
 
         </FrameLayout>
