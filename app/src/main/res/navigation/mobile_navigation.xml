@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/navigation_favorites"
-        android:name="com.ri.movieto.ui.favorites.FavoritesFragment"
+        android:name="com.ri.movieto.presentation.favorites.FavoritesFragment"
         android:label="@string/title_favorites"
         tools:layout="@layout/fragment_favorites" />
 
