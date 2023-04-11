@@ -131,7 +131,6 @@
                         android:orientation="horizontal"
                         android:paddingStart="30dp"
                         android:paddingEnd="30dp"
-                        android:saveEnabled="false"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                     <ProgressBar
@@ -174,7 +173,6 @@
                         android:orientation="horizontal"
                         android:paddingStart="30dp"
                         android:paddingEnd="30dp"
-                        android:saveEnabled="false"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                     <ProgressBar

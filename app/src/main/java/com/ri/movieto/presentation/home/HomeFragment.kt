@@ -64,6 +64,8 @@ class HomeFragment : Fragment() {
         categoryAdapter =
             CategoryAdapter(arrayListOf(), homeViewModel.selectedCategoryIndex.value!!) { id ->
                 homeViewModel.onSelectCategory(id)
+                rvTrendingMovies.scrollToPosition(0)
+                rvTopRatedMovies.scrollToPosition(0)
             }
 
         rvTrendingMovies = binding.rvTrendingMovies
@@ -121,14 +123,13 @@ class HomeFragment : Fragment() {
     ) {
         if (state != null) {
             trendingMoviesAdapter.updateMovieList(state)
-            rvTrendingMovies.scrollToPosition(0)
+
         }
     }
 
     private fun updateTopRatedMovies(state: List<MovieUIItem>?, moviePosterAdapter: MoviePosterAdapter) {
         if (state != null) {
             moviePosterAdapter.updateMovieList(state)
-            rvTopRatedMovies.scrollToPosition(0)
         }
     }
 
