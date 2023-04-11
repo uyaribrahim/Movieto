@@ -2,6 +2,7 @@ package com.ri.movieto.presentation.favorites
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ri.movieto.adapter.MoviePosterAdapter
+import com.ri.movieto.adapter.binding.getFavMovie
 import com.ri.movieto.databinding.FragmentFavoritesBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -25,6 +28,7 @@ class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavoritesBinding? = null
     private lateinit var moviePosterAdapter: MoviePosterAdapter
     private lateinit var favoritesViewModel: FavoritesViewModel
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -46,6 +50,7 @@ class FavoritesFragment : Fragment() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             rvFav = rvFavMovies
+            swipeRefreshLayout = swipeRefresh
             viewModel = favoritesViewModel
         }
         rvFav.layoutManager = GridLayoutManager(context, 2)
@@ -61,6 +66,9 @@ class FavoritesFragment : Fragment() {
         })
         rvFav.adapter = moviePosterAdapter
 
+        swipeRefreshLayout.setOnRefreshListener {
+            favoritesViewModel.getMovies()
+        }
 
         collectState()
 
@@ -73,6 +81,9 @@ class FavoritesFragment : Fragment() {
                 favoritesViewModel.state.collectLatest { state ->
                     state.data.let {
                         moviePosterAdapter.updateMovieList(it)
+                    }
+                    if(!state.isLoading){
+                        swipeRefreshLayout.isRefreshing = false
                     }
                 }
             }
